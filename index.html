@@ -9,7 +9,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* CONFIG. */
 :root {
   --red:        #E1241B;
   --red-dark:   #B5160F;
@@ -17,7 +16,6 @@
   --red-light:  #FEEDEC;
   --red-soft:   #FCD9D7;
   --grad:       linear-gradient(135deg, #E1241B 0%, #B5160F 100%);
-
   --white:      #FFFFFF;
   --bg:         #FBF8F7;
   --surface:    #FFFFFF;
@@ -26,15 +24,12 @@
   --text:       #2B2424;
   --text-2:     #6B5E5D;
   --muted:      #A89B9A;
-
-  /* per-channel colours */
   --ch-homeless: #C2410C;
   --ch-kol:      #B5160F;
   --ch-meta:     #1D4ED8;
   --ch-tiktok:   #BE185D;
   --ch-organic:  #047857;
   --ch-default:  #E1241B;
-
   --font: 'Plus Jakarta Sans', sans-serif;
   --r:    8px;
   --rlg:  14px;
@@ -46,7 +41,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); font
 button { cursor: pointer; font-family: var(--font); }
 input  { font-family: var(--font); }
 
-/* ===================== AUTH (modern, minimal) ===================== */
+/* AUTH */
 .auth-overlay { position: fixed; inset: 0; z-index: 9999; background:
   radial-gradient(1200px 600px at 70% -10%, #FFF3F2 0%, rgba(255,243,242,0) 55%),
   linear-gradient(180deg, #FCFAF9 0%, #F4EEED 100%);
@@ -67,11 +62,8 @@ input  { font-family: var(--font); }
 .auth-btn:hover { background: #1c1717; }
 .auth-err { font-size: 12px; color: var(--red); display: none; text-align: center; min-height: 16px; }
 .auth-err.on { display: block; }
-.pw-meter-wrap { height: 3px; background: var(--border); border-radius: 2px; margin-top: 7px; }
-.pw-meter { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0; }
-.pw-meter-lbl { font-size: 11px; color: var(--muted); margin-top: 5px; }
 
-/* ===================== APP SHELL ===================== */
+/* APP SHELL */
 #app { display: none; min-height: 100vh; flex-direction: column; }
 #app.on { display: flex; }
 .topbar { background: var(--white); height: 62px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
@@ -91,7 +83,7 @@ input  { font-family: var(--font); }
 .tb-btn.red:hover { filter: brightness(1.06); }
 .main { flex: 1; padding: 30px 32px 48px; max-width: 1460px; width: 100%; margin: 0 auto; }
 
-/* ===================== DRAWER ===================== */
+/* DRAWER */
 .drawer-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(43,36,36,0.4); display: none; }
 .drawer-overlay.on { display: block; }
 .drawer { position: fixed; top: 0; right: -540px; bottom: 0; width: 520px; max-width: 100%; z-index: 201; background: var(--white); overflow-y: auto; transition: right 0.28s cubic-bezier(0.4,0,0.2,1); }
@@ -127,7 +119,7 @@ input  { font-family: var(--font); }
 .add-btn { padding: 9px 14px; background: var(--red-light); color: var(--red-dark); border: 1px solid var(--red-soft); border-radius: var(--r); font-size: 12px; font-weight: 700; transition: background 0.15s; }
 .add-btn:hover { background: var(--red-soft); }
 
-/* ===================== DASHBOARD HEADER ===================== */
+/* DASHBOARD HEADER */
 .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 26px; gap: 20px; flex-wrap: wrap; }
 .dash-title { font-size: 23px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
 .dash-sub { font-size: 13px; color: var(--text-2); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
@@ -146,7 +138,7 @@ input  { font-family: var(--font); }
 .banner { background: var(--red-light); border: 1px solid var(--red-soft); border-radius: var(--r); padding: 12px 18px; font-size: 13px; color: var(--red-dark); margin-bottom: 24px; display: none; }
 .banner.on { display: block; }
 
-/* ===================== SECTION + CARDS ===================== */
+/* SECTION + CARDS */
 .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
 .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rlg); padding: 22px 24px; }
 .card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
@@ -286,7 +278,7 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
         <input class="finput" type="number" id="cfg-refresh" placeholder="15">
         <div class="fhint">Dashboard auto-fetches the latest data every N minutes. Default: 15.</div>
       </div>
-      <button class="fsave" onclick="saveCfgConn()">Save & refresh</button>
+      <button class="fsave" onclick="saveCfgConn()">Save &amp; refresh</button>
       <span class="fsaved" id="sv-conn">Saved</span>
     </div>
 
@@ -362,7 +354,8 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       <h3>Display</h3>
       <div class="field">
         <label class="flabel">Logo link (Google Drive / image URL)</label>
-         <input class="settings-input" type="text" id="cfg-logo-url" placeholder="https://drive.google.com/uc?id=...">
+        <!-- FIX: id was mismatched between HTML and JS. Standardised to cfg-logo-url -->
+        <input class="finput" type="text" id="cfg-logo-url" placeholder="https://drive.google.com/uc?id=...">
         <div class="fhint">Google Drive: change the share link from <code>/view</code> to <code>/uc?id=FILE_ID</code></div>
       </div>
       <button class="fsave" onclick="saveCfgDisplay()">Save</button>
@@ -418,7 +411,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       Apps Script URL is not set. Open Settings to connect to Google Sheets.
     </div>
 
-    <!-- KPIs -->
     <div class="section-label">Key performance indicators</div>
     <div class="kpi-grid">
       <div class="kpi-card accent">
@@ -451,7 +443,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       </div>
     </div>
 
-    <!-- MONTHLY TREND -->
     <div class="section-label">Monthly trend</div>
     <div class="card full">
       <div class="card-title">Registrations &amp; revenue by month</div>
@@ -460,7 +451,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       <div style="position:relative;height:300px;"><canvas id="chart-trend" role="img" aria-label="Monthly trend of registrations and revenue"></canvas></div>
     </div>
 
-    <!-- CHANNEL PERFORMANCE -->
     <div class="section-label">Channel performance</div>
     <div class="grid-2-wide">
       <div class="card">
@@ -476,7 +466,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       </div>
     </div>
 
-    <!-- CONVERSION -->
     <div class="section-label">Conversion rate by channel</div>
     <div class="card full">
       <div class="card-title">Does high impression mean high conversion?</div>
@@ -489,7 +478,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       </div>
     </div>
 
-    <!-- TOP RANKINGS -->
     <div class="section-label">Top rankings</div>
     <div class="grid-2">
       <div class="card">
@@ -504,7 +492,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       </div>
     </div>
 
-    <!-- DETAIL -->
     <div class="section-label">Detailed data</div>
     <div class="table-wrap">
       <div class="table-bar">
@@ -522,19 +509,18 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
 </div>
 
 <script>
-/* JS Config (setting data) */
-
-var ADMIN_PASSWORD  = "admin123";    // full access (settings, config, change password)
-var VIEWER_PASSWORD = "IRA123";    // dashboard only, no settings
-/* ========================================================================= */
+/* ===================== JS CONFIG ===================== */
+var ADMIN_PASSWORD  = "admin123";
+var VIEWER_PASSWORD = "IRA123";
+/* ==================================================== */
 
 var DEFAULTS = {
   script_url:  "",
   sheet_url:   "",
   logo_url:    "",
   refresh_min: 15,
-  target_p:    5000000,   /* registration target */
-  target_r:    0,         /* revenue target (0 = not used yet) */
+  target_p:    5000000,
+  target_r:    0,
   sheets: [
     { name: "Homeless", tab: "Homeless" },
     { name: "KOL",      tab: "KOL"      },
@@ -543,23 +529,16 @@ var DEFAULTS = {
   ]
 };
 
-/* Data column names (lowercase, underscore). Must match Sheet & Apps Script:
-   date, wilayah, platform, media_name, link, referral_code, jumlah_pendaftar,
-   total_pendapatan, impressions, reach, lp_views, ctr, cost, click, register_button_click */
-
 var CH_COLORS = { homeless:"#C2410C", kol:"#B5160F", meta:"#1D4ED8", tiktok:"#BE185D", organic:"#047857", default:"#E1241B" };
 function chColor(name){ var k=(name||"").toLowerCase().replace(/\s+/g,"").replace(/ads/,""); return CH_COLORS[k]||CH_COLORS.default; }
 
-/* ===================== STORAGE ===================== */
+/* STORAGE */
 function g(k){ var v=localStorage.getItem("ir_"+k); try{ return v!==null?JSON.parse(v):undefined; }catch(e){ return v; } }
 function s(k,v){ localStorage.setItem("ir_"+k, typeof v==="object"?JSON.stringify(v):v); }
 function gd(k){ var v=g(k); return v!==undefined?v:DEFAULTS[k]; }
 
-/* ===================== STARTUP ===================== */
-window.addEventListener("load", function(){
-  applyLogoSilent();
-  showOv("login-screen");
-});
+/* STARTUP */
+window.addEventListener("load", function(){ applyLogoSilent(); showOv("login-screen"); });
 function applyLogoSilent(){
   var url=gd("logo_url");
   ["topbar-logo","login-logo"].forEach(function(id){
@@ -573,14 +552,11 @@ function applyLogoSilent(){
 function showOv(id){ var el=document.getElementById(id); if(el) el.classList.remove("off"); }
 function hideOv(id){ var el=document.getElementById(id); if(el) el.classList.add("off"); }
 
-/* ===================== PASSWORDS (read from config, optional admin override) =====================
-   Source of truth = ADMIN_PASSWORD / VIEWER_PASSWORD in the config block above.
-   If the admin changes a password from Settings on their own device, an override
-   is kept in this browser too — but the FILE is what applies to everyone.        */
+/* PASSWORDS */
 function adminPw(){ var o=g("admin_pw_override"); return o!==undefined ? o : ADMIN_PASSWORD; }
 function viewerPw(){ var o=g("viewer_pw_override"); return o!==undefined ? o : VIEWER_PASSWORD; }
 
-/* ===================== LOGIN ===================== */
+/* LOGIN */
 function doLogin(){
   var pw=document.getElementById("l-pw").value, e=document.getElementById("l-err");
   if(pw===adminPw()){ currentRole="admin"; }
@@ -601,18 +577,19 @@ document.addEventListener("keydown", function(e){
   if(la&&!la.classList.contains("off")) doLogin();
 });
 
-/* ===================== DRAWER ===================== */
+/* DRAWER */
 function openDrawer(){ if(currentRole!=="admin") return; fillDrawer(); document.getElementById("drawer").classList.add("on"); document.getElementById("drawer-overlay").classList.add("on"); }
 function closeDrawer(){ document.getElementById("drawer").classList.remove("on"); document.getElementById("drawer-overlay").classList.remove("on"); }
 function fillDrawer(){
-  document.getElementById("cfg-script").value=gd("script_url");
-  document.getElementById("cfg-sheet-url").value=gd("sheet_url");
-  document.getElementById("cfg-refresh").value=gd("refresh_min");
-  document.getElementById("cfg-logo").value=gd("logo_url");
-  document.getElementById("cfg-target-p").value=gd("target_p");
-  document.getElementById("cfg-target-r").value=gd("target_r");
-  document.getElementById("show-admin").value=adminPw();
-  document.getElementById("show-viewer").value=viewerPw();
+  document.getElementById("cfg-script").value    = gd("script_url");
+  document.getElementById("cfg-sheet-url").value = gd("sheet_url");
+  document.getElementById("cfg-refresh").value   = gd("refresh_min");
+  document.getElementById("cfg-target-p").value  = gd("target_p");
+  document.getElementById("cfg-target-r").value  = gd("target_r");
+  document.getElementById("show-admin").value    = adminPw();
+  document.getElementById("show-viewer").value   = viewerPw();
+  // FIX: was getElementById("cfg-logo") — id does not exist, causes crash before drawer opens
+  document.getElementById("cfg-logo-url").value  = gd("logo_url");
   renderSheetList();
 }
 function saved(id){ var el=document.getElementById(id); el.classList.add("on"); setTimeout(function(){ el.classList.remove("on"); },2000); }
@@ -628,7 +605,8 @@ function saveCfgTarget(){
   saved("sv-target"); applyAll();
 }
 function saveCfgDisplay(){
-  s("logo_url",document.getElementById("cfg-logo").value.trim());
+  // FIX: was getElementById("cfg-logo") — same crash as above
+  s("logo_url",document.getElementById("cfg-logo-url").value.trim());
   applyLogoSilent(); saved("sv-disp");
 }
 function togglePw(id, btn){
@@ -644,7 +622,6 @@ function genPasswordConfig(){
   if(a.length<6){ showErr(e,"Admin password must be at least 6 characters."); return; }
   if(v.length<6){ showErr(e,"Viewer password must be at least 6 characters."); return; }
   if(a===v){ showErr(e,"Admin and viewer passwords must be different."); return; }
-  /* live override on this device for convenience */
   s("admin_pw_override", a); s("viewer_pw_override", v);
   document.getElementById("show-admin").value=a;
   document.getElementById("show-viewer").value=v;
@@ -673,7 +650,7 @@ function addSheet(){
 }
 function delSheet(i){ var sh=getSheets(); sh.splice(i,1); s("sheets",sh); renderSheetList(); }
 
-/* ===================== DATA ===================== */
+/* DATA */
 var allData=[], lastUpdate="", trendChart=null, donutChart=null, refreshTimer=null, currentRole="admin";
 function initApp(){ applyLogoSilent(); startAutoRefresh(); loadAllData(false); }
 function startAutoRefresh(){ stopAutoRefresh(); var m=Number(gd("refresh_min"))||15; refreshTimer=setInterval(function(){ loadAllData(false); }, m*60*1000); }
@@ -724,7 +701,6 @@ function applyAll(){
   renderRank("rank-media","media_name",false,d);
   renderTable(d);
 }
-
 function buildFilters(){
   var nm=sheetNameMap();
   fillSel("f-source","All channels", uniq("_source"), nm);
@@ -738,7 +714,7 @@ function fillSel(id, allLabel, keys, nm){
   sel.value=cur;
 }
 
-/* ===================== KPI ===================== */
+/* KPI */
 function renderKPI(d){
   var tp=0,tr=0,tc=0;
   d.forEach(function(r){ tp+=num(r.jumlah_pendaftar); tr+=num(r.total_pendapatan); tc+=num(r.cost); });
@@ -752,7 +728,7 @@ function renderKPI(d){
 }
 function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
 
-/* ===================== MONTHLY TREND ===================== */
+/* MONTHLY TREND */
 function monthKey(v){ var d=v?new Date(v):null; if(!d||isNaN(d)) return null; return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
 function monthLabel(key){ var p=key.split("-"); var names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return names[Number(p[1])-1]+" "+p[0]; }
 function renderTrend(d){
@@ -778,7 +754,7 @@ function renderTrend(d){
     '<span class="legend-item"><span class="legend-sq" style="background:#1D4ED8"></span>Revenue</span>';
 }
 
-/* ===================== RANK LISTS ===================== */
+/* RANK LISTS */
 function renderRank(elId, key, isChannel, d){
   d = d || getFilteredData();
   var nm=sheetNameMap();
@@ -796,7 +772,7 @@ function renderRank(elId, key, isChannel, d){
   document.getElementById(elId).innerHTML=html||'<div style="color:var(--muted);font-size:13px;padding:10px 0;">No data</div>';
 }
 
-/* ===================== DONUT (revenue by channel) ===================== */
+/* DONUT */
 function renderDonut(d){
   var nm=sheetNameMap();
   var byR=groupBy(d,"_source","total_pendapatan");
@@ -810,7 +786,7 @@ function renderDonut(d){
   document.getElementById("chart-legend-donut").innerHTML=labels.map(function(l,i){ var pct=tot?Math.round(vals[i]/tot*100):0; return '<span class="legend-item"><span class="legend-sq" style="background:'+colors[i]+'"></span>'+esc(l)+' '+pct+'%</span>'; }).join("");
 }
 
-/* ===================== CONVERSION TABLE ===================== */
+/* CONVERSION TABLE */
 function renderConversionTable(d){
   var nm=sheetNameMap();
   var imp=groupBy(d,"_source","impressions").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
@@ -836,7 +812,7 @@ function renderConversionTable(d){
 }
 function dash(){ return '<span style="color:var(--muted)">—</span>'; }
 
-/* ===================== DETAIL TABLE ===================== */
+/* DETAIL TABLE */
 var sortCol="jumlah_pendaftar", sortDir="desc";
 function renderTable(d){
   document.getElementById("tbl-count").textContent=fmtNum(d.length)+" rows";
@@ -880,7 +856,7 @@ function renderTable(d){
 function th(col,label){ var cls=sortCol===col?("sortable sort-"+sortDir):"sortable"; return '<th class="'+cls+'" onclick="doSort(\''+col+'\')">'+label+'<span class="sort-arrow"></span></th>'; }
 function doSort(col){ if(sortCol===col) sortDir=sortDir==="asc"?"desc":"asc"; else { sortCol=col; sortDir="desc"; } renderTable(getFilteredData()); }
 
-/* ===================== HELPERS ===================== */
+/* HELPERS */
 function sheetNameMap(){ var nm={}; getSheets().forEach(function(x){ nm[x.tab]=x.name; }); return nm; }
 function groupBy(d,key,valKey){ var o={}; d.forEach(function(r){ var k=r[key]||"(none)"; o[k]=(o[k]||0)+num(r[valKey]); }); return Object.entries(o).sort(function(a,b){ return b[1]-a[1]; }); }
 function num(v){ if(typeof v==="number") return v; var n=parseFloat(String(v||"").replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
@@ -889,7 +865,7 @@ function fmtRp(n){ var v=Math.round(num(n)); if(v>=1e12) return "Rp "+(v/1e12).t
 function fmtDate(v){ try{ return new Date(v).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }catch(e){ return v; } }
 function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-/* ===================== EXPORT PDF (real file, not print) ===================== */
+/* EXPORT PDF */
 function exportPDF(){
   var root=document.getElementById("pdf-root");
   document.querySelectorAll(".no-pdf").forEach(function(el){ el.dataset.prev=el.style.display; el.style.display="none"; });
