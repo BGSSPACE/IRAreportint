@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Internet Rakyat</title>
+<title>Internet Rakyat — Acquisition Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -202,9 +202,9 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
       <img id="login-logo" src="" alt="Internet Rakyat" style="height:32px;object-fit:contain;">
     </div>
     <p class="auth-h">Sign in</p>
-    <p class="auth-sub">Selamat datang di dashboard performance IRA. Silahkah masukkan password Anda</p>
+    <p class="auth-sub">Masukkan password admin, atau kode referral kamu (untuk KOL &amp; mitra).</p>
     <div>
-      <label class="auth-label">Password</label>
+      <label class="auth-label">Password / Kode Referral</label>
       <input class="auth-input" type="password" id="l-pw" placeholder="Masukkan...">
     </div>
     <div>
@@ -246,7 +246,7 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
     </div>
     <div class="form-card">
       <div class="ftxt">
-        <h4>Pengisian Info Rekening</h4>
+        <h4>Isi / Update Info Rekening</h4>
         <p>Untuk pengiriman komisi, isi info rekening kamu lewat form ini. Masukkan kode <strong id="p-code-inline">—</strong> saat diminta.</p>
       </div>
       <a class="form-btn" id="p-form-link" href="#" target="_blank" rel="noopener">Buka Form Rekening</a>
@@ -351,8 +351,8 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
 
     <div class="section-label">Conversion rate by channel</div>
     <div class="card full">
-      <div class="card-title">Does high impression mean high conversion?</div>
-      <div class="card-sub">Impressions and reach vs actual registrations</div>
+      <div class="card-title">Conversion Rate by Channel</div>
+      <div class="card-sub">Impressions &amp; reach vs registrations</div>
       <div class="conv-scroll">
         <table class="conv-table">
           <thead><tr><th>Channel</th><th>Impressions</th><th>Reach</th><th>Registrations</th><th>Conv. Rate</th><th>CPA</th><th>Status</th></tr></thead>
@@ -375,21 +375,6 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
       </div>
     </div>
 
-    <!-- COMMISSION -->
-    <div class="section-label">Commission — KOL &amp; Homeless</div>
-    <div class="table-wrap full">
-      <div class="table-bar">
-        <div class="table-bar-left">
-          <span class="table-title-sm">Commission List</span>
-          <span class="table-count" id="comm-count">—</span>
-          <span class="muted" id="comm-rate-note"></span>
-          <span class="muted" style="color:var(--red-dark);">· Email dikirim manual di akhir periode</span>
-        </div>
-        <input class="t-search no-pdf" type="text" id="comm-search" placeholder="Search name / code..." oninput="renderCommission()">
-      </div>
-      <div class="table-scroll" id="comm-body"><div class="loading-row">Loading...</div></div>
-    </div>
-
     <div class="section-label">Detailed data</div>
     <div class="table-wrap">
       <div class="table-bar">
@@ -403,6 +388,20 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
       </div>
       <div class="table-scroll" id="tbl-body"><div class="loading-row">Loading data...</div></div>
     </div>
+
+    <!-- KOL & HOMELESS (commission) — paling bawah -->
+    <div class="section-label">KOL &amp; Homeless</div>
+    <div class="table-wrap full">
+      <div class="table-bar">
+        <div class="table-bar-left">
+          <span class="table-title-sm">KOL &amp; Homeless</span>
+          <span class="table-count" id="comm-count">—</span>
+          <span class="muted" id="comm-rate-note"></span>
+        </div>
+        <input class="t-search no-pdf" type="text" id="comm-search" placeholder="Search nama / kode..." oninput="renderCommission()">
+      </div>
+      <div class="table-scroll" id="comm-body"><div class="loading-row">Loading...</div></div>
+    </div>
   </div>
 </div>
 
@@ -410,22 +409,59 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
 
 <script>
 /* ============================================================
-   HARDCODED CONFIG
+   HARDCODED CONFIG — edit di sini kalau ada perubahan
    ============================================================ */
 var CFG = {
   ADMIN_PASSWORD : "admin123",                 // SATU password admin (akses penuh)
   SCRIPT_URL     : "https://script.google.com/macros/s/AKfycbx2GYT4IifWEqgIAmzRuA5_-pj8MqXY3zFZP_zal84W2KXXtFsqSemPH8qnSc40CbGt/exec",
   LOGO_URL       : "https://bgsspace.github.io/dashboardIRA/logo.png",
-  GFORM_URL      : "https://docs.google.com/forms/d/e/1FAIpQLSdAJ_3H87EEsyLlV5UBWv1MTMHxZ5JilhtqW-HwRYNYvsg5zA/viewform",  // form norek
+  GFORM_URL      : "https://docs.google.com/forms/d/e/1FAIpQLSdAJ_3H87EEsyLlV5UBWv1MTMHxZ5JilhtqW-HwRYNYvsg5zA/viewform",  // form norek (tombol saja)
   COMMISSION_PER : 30000,                        // komisi per pendaftar (KOL & Homeless)
   TARGET_P       : 5000000,                      // target pendaftar
-  TARGET_R       : 0,                            // target pendapatan
-  REFRESH_MIN    : 15,                           // auto refresh (menit)
+  TARGET_R       : 0,                            // target pendapatan (0 = belum dipakai)
+  REFRESH_MIN    : 15,                           // auto-refresh (menit)
   SHEETS: [
     { name: "Homeless", tab: "Homeless" },
     { name: "KOL",      tab: "KOL"      },
     { name: "Meta Ads", tab: "Meta"     },
     { name: "TikTok",   tab: "TikTok"  }
+  ],
+
+  /* ====== KOLOM TABEL "DETAILED DATA" ======
+     Tinggal hapus/tambah baris di bawah untuk atur kolom yang muncul.
+     type: "date" | "text" | "channel" | "code" | "num" | "rp"
+     Kolom yang TERSEDIA tapi sengaja dimatikan: lp_views, click, register_button_click
+     (tinggal hapus tanda // di depannya kalau mau dimunculkan).        */
+  DETAIL_COLS: [
+    { key:"date",             label:"Date",          type:"date" },
+    { key:"wilayah",          label:"Region",        type:"text" },
+    { key:"_source",          label:"Channel",       type:"channel" },
+    { key:"referral_code",    label:"Referral Code", type:"code" },
+    { key:"media_name",       label:"Media Name",    type:"text" },
+    { key:"jumlah_pendaftar", label:"Registrations", type:"num" },
+    { key:"total_pendapatan", label:"Revenue",       type:"rp" },
+    { key:"impressions",      label:"Impressions",   type:"num" },
+    { key:"reach",            label:"Reach",         type:"num" },
+    { key:"views",            label:"Views",         type:"num" },
+    { key:"interaction",      label:"Interaction",   type:"num" },
+    { key:"ctr",              label:"CTR",           type:"text" },
+    { key:"cost",             label:"Cost",          type:"rp" }
+    // ,{ key:"lp_views",              label:"LP Views",   type:"num" }
+    // ,{ key:"click",                 label:"Click",      type:"num" }
+    // ,{ key:"register_button_click", label:"Reg. Click", type:"num" }
+  ],
+
+  /* ====== KOLOM TABEL "KOL & HOMELESS" ======
+     Sama: hapus/tambah baris. "linkbtn" = tombol buka link.            */
+  COMMISSION_COLS: [
+    { key:"name",           label:"Nama",           type:"text" },
+    { key:"source",         label:"Category",       type:"channel" },
+    { key:"link_postingan", label:"Link Postingan", type:"linkbtn", btn:"Cek Postingan" },
+    { key:"registrations",  label:"Jumlah Daftar",  type:"num" },
+    { key:"commission",     label:"Estimasi Komisi",type:"rp" }
+    // ,{ key:"norek",        label:"No. Rekening", type:"text" }
+    // ,{ key:"account_name", label:"Nama Rekening",type:"text" }
+    // ,{ key:"email",        label:"Email",        type:"text" }
   ]
 };
 /* ============================================================ */
@@ -621,62 +657,51 @@ function renderConversionTable(d){
 function dash(){ return '<span style="color:var(--muted)">—</span>'; }
 
 var sortCol="jumlah_pendaftar", sortDir="desc";
+/* ============ TABLE HELPERS (config-driven) ============ */
+function colType(cols,key){ for(var i=0;i<cols.length;i++) if(cols[i].key===key) return cols[i].type; return "text"; }
+function cellHtml(col,r){
+  var v=r[col.key];
+  if(col.type==="date")    return '<td class="muted">'+(v?fmtDate(v):"—")+'</td>';
+  if(col.type==="num")     return '<td class="num-bold">'+fmtNum(num(v))+'</td>';
+  if(col.type==="rp")      return '<td class="red-num">'+fmtRp(num(v))+'</td>';
+  if(col.type==="code")    return '<td><span class="code-tag">'+esc(v||"—")+'</span></td>';
+  if(col.type==="channel"){ var nm=sheetNameMap(); var label=nm[v]||v||"-"; var c=chColor(label); return '<td><span class="ch-pill" style="background:'+c+'18;color:'+c+'">'+esc(label)+'</span></td>'; }
+  if(col.type==="linkbtn"){ var u=String(v||"").trim(); return '<td>'+(u?('<a class="send-btn" style="text-decoration:none;display:inline-block;" href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(col.btn||"Buka")+'</a>'):'<span class="muted">—</span>')+'</td>'; }
+  return '<td>'+esc(v||"—")+'</td>';
+}
+function buildTable(rows,cols,sortable){
+  var html='<table class="detail"><thead><tr>';
+  cols.forEach(function(col){
+    var canSort = sortable && col.type!=="linkbtn" && col.type!=="channel";
+    if(canSort){ var cls=sortCol===col.key?("sortable sort-"+sortDir):"sortable"; html+='<th class="'+cls+'" onclick="doSort(\''+col.key+'\')">'+esc(col.label)+'<span class="sort-arrow"></span></th>'; }
+    else html+='<th>'+esc(col.label)+'</th>';
+  });
+  html+='</tr></thead><tbody>';
+  rows.forEach(function(r){ html+='<tr>'; cols.forEach(function(col){ html+=cellHtml(col,r); }); html+='</tr>'; });
+  return html+'</tbody></table>';
+}
+
+/* ============ DETAILED DATA ============ */
 function renderTable(d){
   document.getElementById("tbl-count").textContent=fmtNum(d.length)+" rows";
   if(!d.length){ document.getElementById("tbl-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128202;</div><div>No matching data</div></div>'; return; }
-  var nm=sheetNameMap(); var numCols=["jumlah_pendaftar","total_pendapatan","impressions","reach","lp_views","cost","click","register_button_click"];
-  var sorted=d.slice().sort(function(a,b){ var isNum=numCols.indexOf(sortCol)>=0; var av=isNum?num(a[sortCol]):String(a[sortCol]||"").toLowerCase(); var bv=isNum?num(b[sortCol]):String(b[sortCol]||"").toLowerCase(); if(av<bv) return sortDir==="asc"?-1:1; if(av>bv) return sortDir==="asc"?1:-1; return 0; });
-  var html='<table class="detail"><thead><tr><th>Date</th><th>Region</th><th>Channel</th><th>Referral Code</th><th>Media Name</th>'+th("jumlah_pendaftar","Registrations")+th("total_pendapatan","Revenue")+th("impressions","Impressions")+th("reach","Reach")+th("lp_views","LP Views")+'<th>CTR</th>'+th("cost","Cost")+th("click","Click")+th("register_button_click","Reg. Click")+'</tr></thead><tbody>';
-  sorted.forEach(function(r){
-    var src=nm[r._source]||r._source||"-", c=chColor(src);
-    html+='<tr><td class="muted">'+(r.date?fmtDate(r.date):"—")+'</td><td>'+esc(r.wilayah||"—")+'</td><td><span class="ch-pill" style="background:'+c+'18;color:'+c+'">'+esc(src)+'</span></td><td><span class="code-tag">'+esc(r.referral_code||"—")+'</span></td><td>'+esc(r.media_name||"—")+'</td><td class="num-bold">'+fmtNum(num(r.jumlah_pendaftar))+'</td><td class="red-num">'+fmtRp(num(r.total_pendapatan))+'</td><td>'+fmtNum(num(r.impressions))+'</td><td>'+fmtNum(num(r.reach))+'</td><td>'+fmtNum(num(r.lp_views))+'</td><td>'+esc(r.ctr||"—")+'</td><td>'+fmtRp(num(r.cost))+'</td><td>'+fmtNum(num(r.click))+'</td><td>'+fmtNum(num(r.register_button_click))+'</td></tr>';
-  });
-  html+='</tbody></table>'; document.getElementById("tbl-body").innerHTML=html;
+  var cols=CFG.DETAIL_COLS;
+  var isNumType=function(k){ var t=colType(cols,k); return t==="num"||t==="rp"; };
+  var sorted=d.slice().sort(function(a,b){ var n=isNumType(sortCol); var av=n?num(a[sortCol]):String(a[sortCol]||"").toLowerCase(); var bv=n?num(b[sortCol]):String(b[sortCol]||"").toLowerCase(); if(av<bv) return sortDir==="asc"?-1:1; if(av>bv) return sortDir==="asc"?1:-1; return 0; });
+  document.getElementById("tbl-body").innerHTML=buildTable(sorted,cols,true);
 }
-function th(col,label){ var cls=sortCol===col?("sortable sort-"+sortDir):"sortable"; return '<th class="'+cls+'" onclick="doSort(\''+col+'\')">'+label+'<span class="sort-arrow"></span></th>'; }
 function doSort(col){ if(sortCol===col) sortDir=sortDir==="asc"?"desc":"asc"; else { sortCol=col; sortDir="desc"; } renderTable(getFilteredData()); }
 
-/* ============ COMMISSION (admin) ============ */
+/* ============ KOL & HOMELESS ============ */
 function renderCommission(){
-  document.getElementById("comm-rate-note").textContent="Rp"+Number(CFG.COMMISSION_PER).toLocaleString("id-ID")+" / pendaftar";
+  var note=document.getElementById("comm-rate-note"); if(note) note.textContent="Rp"+Number(CFG.COMMISSION_PER).toLocaleString("id-ID")+" / pendaftar";
   var q=(document.getElementById("comm-search")||{}).value; q=(q||"").toLowerCase();
   var rows=commission.filter(function(c){ return !q || String(c.name||"").toLowerCase().includes(q) || String(c.referral_code||"").toLowerCase().includes(q); });
   document.getElementById("comm-count").textContent=fmtNum(rows.length)+" mitra";
-  if(!commission.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128176;</div><div>Belum ada data komisi. Pastikan Apps Script sudah diupdate &amp; tab Commission terisi.</div></div>'; return; }
-  if(!rows.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div>Tidak ada mitra yang cocok.</div></div>'; return; }
+  if(!commission.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128176;</div><div>Belum ada data. Pastikan Apps Script sudah diupdate &amp; tab Commission terisi.</div></div>'; return; }
+  if(!rows.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div>Tidak ada yang cocok.</div></div>'; return; }
   rows.sort(function(a,b){ return num(b.commission)-num(a.commission); });
-  var html='<table class="detail"><thead><tr><th>Referral Code</th><th>Nama</th><th>Source</th><th>Pendaftar</th><th>Komisi</th><th>No. Rekening</th><th>Nama Rekening</th><th>Email</th><th>Bukti Transfer</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
-  rows.forEach(function(c){
-    var src=c.source||"-", color=chColor(src);
-    var hasEmail=!!String(c.email||"").trim();
-    var statusSent=/terkirim|sent/i.test(String(c.status||""));
-    var proof=String(c.proof_link||"").trim();
-    html+='<tr>'+
-      '<td><span class="code-tag">'+esc(c.referral_code)+'</span></td>'+
-      '<td style="font-weight:600;">'+esc(c.name||"—")+'</td>'+
-      '<td><span class="ch-pill" style="background:'+color+'18;color:'+color+'">'+esc(src)+'</span></td>'+
-      '<td class="num-bold">'+fmtNum(num(c.registrations))+'</td>'+
-      '<td class="red-num">'+fmtRp(num(c.commission))+'</td>'+
-      '<td>'+esc(c.bank||"—")+'</td>'+
-      '<td>'+esc(c.account_name||"—")+'</td>'+
-      '<td class="muted">'+(hasEmail?esc(c.email):"—")+'</td>'+
-      '<td>'+(proof?('<a class="link-a" href="'+esc(proof)+'" target="_blank" rel="noopener">Lihat</a>'):'<span class="muted">—</span>')+'</td>'+
-      '<td>'+(statusSent?'<span class="status-pill status-sent">'+esc(c.status)+'</span>':'<span class="status-pill status-pending">Belum dikirim</span>')+'</td>'+
-      '<td><button class="send-btn" '+(hasEmail?'':'disabled title="Email kosong"')+' onclick="sendComm(\''+esc(c.referral_code).replace(/'/g,"")+'\',\''+esc(c.name||c.referral_code).replace(/'/g,"")+'\')">Kirim email</button></td>'+
-      '</tr>';
-  });
-  html+='</tbody></table>'; document.getElementById("comm-body").innerHTML=html;
-}
-function sendComm(code,name){
-  if(!confirm("Kirim email komisi ke "+name+" ("+code+")?")) return;
-  toast("Mengirim email...");
-  fetch(CFG.SCRIPT_URL+"?action=email&code="+encodeURIComponent(code))
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      if(j && j.ok){ toast("Email terkirim ke "+name); fetchData(false); }
-      else { toast((j&&j.error)?j.error:"Gagal mengirim email"); }
-    })
-    .catch(function(){ toast("Permintaan terkirim. Cek folder Terkirim di Gmail."); fetchData(false); });
+  document.getElementById("comm-body").innerHTML=buildTable(rows,CFG.COMMISSION_COLS,false);
 }
 
 /* ============ PARTNER RENDER ============ */
