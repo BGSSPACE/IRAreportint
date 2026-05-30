@@ -686,7 +686,15 @@ function getFilteredData(){
     if(src&&(r._source||"").toLowerCase()!==src) return false;
     if(region&&(r.wilayah||"").toLowerCase()!==region) return false;
     if(search&&!(r.media_name||"").toLowerCase().includes(search)&&!(r.link||"").toLowerCase().includes(search)&&!(r.referral_code||"").toLowerCase().includes(search)) return false;
-    if(dfrom||dto){ var tgl=r.date?new Date(r.date):null; if(!tgl||isNaN(tgl)) return true; if(dfrom&&tgl<new Date(dfrom)) return false; if(dto&&tgl>new Date(dto+"T23:59:59")) return false; }
+    if(dfrom||dto){
+  var s=String(r.date||"").trim();
+  // Parse dd/MM/yyyy manual
+  var mp=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  var tglStr=mp?(mp[3]+"-"+mp[2].padStart(2,"0")+"-"+mp[1].padStart(2,"0")):s;
+  if(!tglStr) return true;
+  if(dfrom&&tglStr<dfrom) return false;
+  if(dto&&tglStr>dto) return false;
+}
     return true;
   });
 }
@@ -729,7 +737,17 @@ function renderKPI(d){
 function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
 
 /* MONTHLY TREND */
-function monthKey(v){ var d=v?new Date(v):null; if(!d||isNaN(d)) return null; return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
+function monthKey(v){
+  if(!v) return null;
+  var s = String(v).trim();
+  // dd/MM/yyyy → ambil bulan dan tahun langsung tanpa new Date()
+  var m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m) return m[3] + "-" + m[2].padStart(2,"0");
+  // yyyy-MM-dd
+  var m2 = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m2) return m2[1] + "-" + m2[2];
+  return null;
+}
 function monthLabel(key){ var p=key.split("-"); var names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return names[Number(p[1])-1]+" "+p[0]; }
 function renderTrend(d){
   var byMonth={};
@@ -862,7 +880,7 @@ function groupBy(d,key,valKey){ var o={}; d.forEach(function(r){ var k=r[key]||"
 function num(v){ if(typeof v==="number") return v; var n=parseFloat(String(v||"").replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
 function fmtNum(n){ return Math.round(num(n)).toLocaleString("en-US"); }
 function fmtRp(n){ var v=Math.round(num(n)); if(v>=1e12) return "Rp "+(v/1e12).toFixed(1)+"T"; if(v>=1e9) return "Rp "+(v/1e9).toFixed(1)+"M"; if(v>=1e6) return "Rp "+(v/1e6).toFixed(1)+"jt"; return "Rp "+v.toLocaleString("en-US"); }
-function fmtDate(v){ try{ return new Date(v).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }catch(e){ return v; } }
+function fmtDate(v){ return String(v || "—"); }
 function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
 /* EXPORT PDF */
