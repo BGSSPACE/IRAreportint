@@ -24,12 +24,6 @@
   --text:       #2B2424;
   --text-2:     #6B5E5D;
   --muted:      #A89B9A;
-  --ch-homeless: #C2410C;
-  --ch-kol:      #B5160F;
-  --ch-meta:     #1D4ED8;
-  --ch-tiktok:   #BE185D;
-  --ch-organic:  #047857;
-  --ch-default:  #E1241B;
   --font: 'Plus Jakarta Sans', sans-serif;
   --r:    8px;
   --rlg:  14px;
@@ -49,10 +43,7 @@ input  { font-family: var(--font); }
 .auth-overlay.off { display: none; }
 .auth-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rxl); padding: 40px 40px 36px; width: 400px; max-width: 100%; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 18px 50px rgba(43,36,36,0.10); }
 .auth-mark { display: flex; align-items: center; gap: 10px; }
-.auth-mark .dot { width: 28px; height: 28px; border-radius: 8px; background: var(--grad); flex-shrink: 0; }
-.auth-mark img { height: 30px; object-fit: contain; }
-.auth-mark .name { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: 0.01em; }
-.auth-mark .name small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; }
+.auth-mark img { height: 32px; object-fit: contain; }
 .auth-h { font-size: 21px; font-weight: 700; color: var(--text); line-height: 1.25; margin-top: 4px; }
 .auth-sub { font-size: 13px; color: var(--text-2); margin-top: -10px; line-height: 1.6; }
 .auth-label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-2); margin-bottom: 6px; display: block; }
@@ -70,10 +61,6 @@ input  { font-family: var(--font); }
 .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--grad); }
 .topbar-left { display: flex; align-items: center; gap: 14px; }
 .topbar-logo { height: 34px; object-fit: contain; }
-.topbar-mark { display: flex; align-items: center; gap: 9px; }
-.topbar-mark .dot { width: 26px; height: 26px; border-radius: 7px; background: var(--grad); }
-.topbar-wordmark { font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
-.topbar-wordmark span { color: var(--red); }
 .topbar-divider { width: 1px; height: 22px; background: var(--border-2); }
 .topbar-title { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
 .topbar-right { display: flex; align-items: center; gap: 10px; }
@@ -82,42 +69,6 @@ input  { font-family: var(--font); }
 .tb-btn.red { background: var(--grad); border: none; color: var(--white); }
 .tb-btn.red:hover { filter: brightness(1.06); }
 .main { flex: 1; padding: 30px 32px 48px; max-width: 1460px; width: 100%; margin: 0 auto; }
-
-/* DRAWER */
-.drawer-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(43,36,36,0.4); display: none; }
-.drawer-overlay.on { display: block; }
-.drawer { position: fixed; top: 0; right: -540px; bottom: 0; width: 520px; max-width: 100%; z-index: 201; background: var(--white); overflow-y: auto; transition: right 0.28s cubic-bezier(0.4,0,0.2,1); }
-.drawer.on { right: 0; }
-.drawer-head { padding: 22px 28px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--white); z-index: 1; }
-.drawer-head h2 { font-size: 16px; font-weight: 700; }
-.drawer-close { width: 32px; height: 32px; border-radius: var(--r); border: 1px solid var(--border-2); background: none; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-2); transition: all 0.15s; }
-.drawer-close:hover { background: var(--red-light); color: var(--red); border-color: var(--red-soft); }
-.drawer-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 26px; }
-.drawer-section h3 { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.field { margin-bottom: 14px; }
-.field:last-child { margin-bottom: 0; }
-.flabel { font-size: 11px; font-weight: 700; color: var(--text-2); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; display: block; }
-.finput { width: 100%; padding: 10px 12px; border: 1px solid var(--border-2); border-radius: var(--r); font-size: 13px; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.15s; }
-.finput:focus { border-color: var(--red); background: var(--white); }
-.fhint { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
-.fhint code { background: var(--red-light); color: var(--red-dark); padding: 1px 5px; border-radius: 3px; }
-.fsave { padding: 10px 20px; background: var(--grad); color: var(--white); border: none; border-radius: var(--r); font-size: 13px; font-weight: 600; transition: filter 0.15s; }
-.fsave:hover { filter: brightness(1.06); }
-.fsaved { font-size: 12px; color: #15803d; display: none; margin-left: 10px; font-weight: 600; }
-.fsaved.on { display: inline; }
-.sheet-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-.sheet-row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); }
-.sheet-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
-.sheet-info { flex: 1; }
-.sheet-name { font-size: 13px; font-weight: 600; }
-.sheet-tab  { font-size: 11px; color: var(--muted); font-family: monospace; }
-.sheet-del  { padding: 5px 11px; border: 1px solid var(--border-2); border-radius: 6px; background: none; font-size: 12px; color: var(--muted); transition: all 0.15s; }
-.sheet-del:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
-.add-row { display: flex; gap: 8px; }
-.add-inp { flex: 1; padding: 9px 10px; border: 1px solid var(--border-2); border-radius: var(--r); font-size: 13px; color: var(--text); background: var(--white); outline: none; }
-.add-inp:focus { border-color: var(--red); }
-.add-btn { padding: 9px 14px; background: var(--red-light); color: var(--red-dark); border: 1px solid var(--red-soft); border-radius: var(--r); font-size: 12px; font-weight: 700; transition: background 0.15s; }
-.add-btn:hover { background: var(--red-soft); }
 
 /* DASHBOARD HEADER */
 .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 26px; gap: 20px; flex-wrap: wrap; }
@@ -135,8 +86,6 @@ input  { font-family: var(--font); }
 .action-btn.primary { background: var(--grad); color: var(--white); border: none; }
 .action-btn.primary:hover { filter: brightness(1.06); }
 .action-btn svg { width: 15px; height: 15px; }
-.banner { background: var(--red-light); border: 1px solid var(--red-soft); border-radius: var(--r); padding: 12px 18px; font-size: 13px; color: var(--red-dark); margin-bottom: 24px; display: none; }
-.banner.on { display: block; }
 
 /* SECTION + CARDS */
 .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
@@ -235,15 +184,14 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="auth-overlay" id="login-screen">
   <div class="auth-card">
     <div class="auth-mark">
-      <img id="login-logo" src="" alt="" style="display:none">
-      <span class="dot" id="login-dot"></span>
-      <span class="name">Internet Rakyat<small>Acquisition Dashboard</small></span>
+      <img src="https://bgsspace.github.io/dashboardIRA/logo.png" alt="Internet Rakyat" style="height:32px;object-fit:contain;">
     </div>
     <p class="auth-h">Sign in</p>
-    <p class="auth-sub">Enter your access password. Admin password unlocks settings; viewer password shows the dashboard only.</p>
+    <p class="auth-sub">Masukkan password untuk mengakses dashboard.</p>
     <div>
       <label class="auth-label">Password</label>
       <input class="auth-input" type="password" id="l-pw" placeholder="Enter password...">
@@ -255,128 +203,15 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
   </div>
 </div>
 
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-head">
-    <h2>Settings</h2>
-    <button class="drawer-close" onclick="closeDrawer()">&#215;</button>
-  </div>
-  <div class="drawer-body">
-    <div class="drawer-section">
-      <h3>Data connection</h3>
-      <div class="field">
-        <label class="flabel">Google Apps Script URL</label>
-        <input class="finput" type="text" id="cfg-script" placeholder="https://script.google.com/macros/s/...">
-        <div class="fhint">URL from your deployed Apps Script web app. One URL for all sheets.</div>
-      </div>
-      <div class="field">
-        <label class="flabel">Google Sheet link (optional)</label>
-        <input class="finput" type="text" id="cfg-sheet-url" placeholder="https://docs.google.com/spreadsheets/d/...">
-      </div>
-      <div class="field">
-        <label class="flabel">Auto-refresh (minutes)</label>
-        <input class="finput" type="number" id="cfg-refresh" placeholder="15">
-        <div class="fhint">Dashboard auto-fetches the latest data every N minutes. Default: 15.</div>
-      </div>
-      <button class="fsave" onclick="saveCfgConn()">Save &amp; refresh</button>
-      <span class="fsaved" id="sv-conn">Saved</span>
-    </div>
-
-    <div class="drawer-section">
-      <h3>Source sheets (tabs in your Spreadsheet)</h3>
-      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; line-height:1.6;">
-        Tab names must match your Google Spreadsheet exactly. Apps Script merges these into the <code style="background:var(--red-light);color:var(--red-dark);padding:1px 5px;border-radius:3px;">Database</code> tab.
-      </p>
-      <div class="sheet-list" id="sheet-list"></div>
-      <div class="add-row" style="margin-bottom:8px;">
-        <input class="add-inp" type="text" id="new-sname" placeholder="Display name">
-        <input class="add-inp" type="text" id="new-stab" placeholder="Tab name">
-      </div>
-      <button class="add-btn" onclick="addSheet()" style="width:100%;">Add sheet</button>
-      <div class="auth-err" id="sheet-err" style="text-align:left;"></div>
-    </div>
-
-    <div class="drawer-section">
-      <h3>KPI targets</h3>
-      <div class="field">
-        <label class="flabel">Registration target (total)</label>
-        <input class="finput" type="number" id="cfg-target-p" placeholder="5000000">
-        <div class="fhint">Numbers only, no separators. Default: 5,000,000</div>
-      </div>
-      <div class="field">
-        <label class="flabel">Revenue target (Rp)</label>
-        <input class="finput" type="number" id="cfg-target-r" placeholder="0">
-        <div class="fhint">Set to 0 if not used yet.</div>
-      </div>
-      <button class="fsave" onclick="saveCfgTarget()">Save</button>
-      <span class="fsaved" id="sv-target">Saved</span>
-    </div>
-
-    <div class="drawer-section">
-      <h3>Access credentials</h3>
-      <div class="field">
-        <label class="flabel">Admin password (full access)</label>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input class="finput" type="password" id="show-admin" readonly style="background:var(--white); cursor:default;">
-          <button class="add-btn" style="white-space:nowrap;" onclick="togglePw('show-admin',this)">Show</button>
-        </div>
-      </div>
-      <div class="field">
-        <label class="flabel">Viewer password (dashboard only)</label>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input class="finput" type="password" id="show-viewer" readonly style="background:var(--white); cursor:default;">
-          <button class="add-btn" style="white-space:nowrap;" onclick="togglePw('show-viewer',this)">Show</button>
-        </div>
-        <div class="fhint">These are the passwords currently active for everyone. Share the viewer password with your team and direksi.</div>
-      </div>
-    </div>
-
-    <div class="drawer-section">
-      <h3>Change passwords</h3>
-      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; line-height:1.6;">
-        Type the new password(s), click Generate, then copy the two lines into the top of your <code style="background:var(--red-light);color:var(--red-dark);padding:1px 5px;border-radius:3px;">index.html</code> file on GitHub and save. The change applies to everyone on every device.
-      </p>
-      <div class="field">
-        <label class="flabel">New admin password</label>
-        <input class="finput" type="text" id="cfg-pw-new" placeholder="Leave blank to keep current">
-      </div>
-      <div class="field">
-        <label class="flabel">New viewer password</label>
-        <input class="finput" type="text" id="cfg-vpw-new" placeholder="Leave blank to keep current">
-      </div>
-      <button class="fsave" onclick="genPasswordConfig()">Generate config lines</button>
-      <div class="auth-err" id="pw-err" style="text-align:left; margin-top:6px;"></div>
-      <pre id="pw-config-out" style="display:none; background:#2B2424; color:#FCD9D7; padding:14px; border-radius:8px; font-size:12px; margin-top:12px; white-space:pre-wrap; word-break:break-all; line-height:1.7;"></pre>
-      <button class="add-btn" id="pw-copy-btn" style="display:none; margin-top:8px; width:100%;" onclick="copyPwConfig()">Copy lines</button>
-    </div>
-
-    <div class="drawer-section">
-      <h3>Display</h3>
-      <div class="field">
-        <label class="flabel">Logo link (Google Drive / image URL)</label>
-        <!-- FIX: id was mismatched between HTML and JS. Standardised to cfg-logo-url -->
-        <input class="finput" type="text" id="cfg-logo-url" placeholder="https://drive.google.com/uc?id=...">
-        <div class="fhint">Google Drive: change the share link from <code>/view</code> to <code>/uc?id=FILE_ID</code></div>
-      </div>
-      <button class="fsave" onclick="saveCfgDisplay()">Save</button>
-      <span class="fsaved" id="sv-disp">Saved</span>
-    </div>
-  </div>
-</div>
-
+<!-- APP -->
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <img id="topbar-logo" class="topbar-logo" src="" alt="Internet Rakyat" style="display:none">
-      <div class="topbar-mark" id="topbar-mark">
-        <span class="dot"></span>
-        <div class="topbar-wordmark">Internet<span>Rakyat</span></div>
-      </div>
+      <img class="topbar-logo" src="https://bgsspace.github.io/dashboardIRA/logo.png" alt="Internet Rakyat">
       <div class="topbar-divider"></div>
       <div class="topbar-title">Acquisition Dashboard</div>
     </div>
     <div class="topbar-right">
-      <button class="tb-btn" id="btn-settings" onclick="openDrawer()">Settings</button>
       <button class="tb-btn red" onclick="doLogout()">Log out</button>
     </div>
   </div>
@@ -405,10 +240,6 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
           Export PDF
         </button>
       </div>
-    </div>
-
-    <div class="banner on no-pdf" id="cfg-banner">
-      Apps Script URL is not set. Open Settings to connect to Google Sheets.
     </div>
 
     <div class="section-label">Key performance indicators</div>
@@ -448,7 +279,7 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
       <div class="card-title">Registrations &amp; revenue by month</div>
       <div class="card-sub">Totalled across all channels</div>
       <div id="chart-legend-trend" class="chart-legend"></div>
-      <div style="position:relative;height:300px;"><canvas id="chart-trend" role="img" aria-label="Monthly trend of registrations and revenue"></canvas></div>
+      <div style="position:relative;height:300px;"><canvas id="chart-trend"></canvas></div>
     </div>
 
     <div class="section-label">Channel performance</div>
@@ -462,7 +293,7 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
         <div class="card-title">Revenue by channel</div>
         <div class="card-sub">Revenue contribution per source</div>
         <div id="chart-legend-donut" class="chart-legend"></div>
-        <div style="position:relative;height:220px;"><canvas id="chart-donut" role="img" aria-label="Donut chart of revenue by channel"></canvas></div>
+        <div style="position:relative;height:220px;"><canvas id="chart-donut"></canvas></div>
       </div>
     </div>
 
@@ -509,230 +340,166 @@ th.sort-desc .sort-arrow::after { content: " ▼"; opacity: 1; }
 </div>
 
 <script>
-/* ===================== JS CONFIG ===================== */
-var ADMIN_PASSWORD  = "admin123";
-var VIEWER_PASSWORD = "IRA123";
-/* ==================================================== */
-
-var DEFAULTS = {
-  script_url:  "",
-  sheet_url:   "",
-  logo_url:    "",
-  refresh_min: 15,
-  target_p:    5000000,
-  target_r:    0,
-  sheets: [
+/* ============================================================
+   HARDCODED CONFIG — edit bagian ini kalau ada perubahan
+   ============================================================ */
+var CFG = {
+  ADMIN_PASSWORD  : "admin123",
+  VIEWER_PASSWORD : "IRA123",
+  SCRIPT_URL      : "https://script.google.com/macros/s/AKfycbx2GYT4IifWEqgIAmzRuA5_-pj8MqXY3zFZP_zal84W2KXXtFsqSemPH8qnSc40CbGt/exec",
+  LOGO_URL        : "https://bgsspace.github.io/dashboardIRA/logo.png",
+  TARGET_P        : 5000000,   // registration target
+  TARGET_R        : 0,         // revenue target (0 = belum dipakai)
+  REFRESH_MIN     : 15,        // auto-refresh interval (menit)
+  SHEETS: [
     { name: "Homeless", tab: "Homeless" },
     { name: "KOL",      tab: "KOL"      },
     { name: "Meta Ads", tab: "Meta"     },
     { name: "TikTok",   tab: "TikTok"  }
   ]
 };
+/* ============================================================ */
 
 var CH_COLORS = { homeless:"#C2410C", kol:"#B5160F", meta:"#1D4ED8", tiktok:"#BE185D", organic:"#047857", default:"#E1241B" };
 function chColor(name){ var k=(name||"").toLowerCase().replace(/\s+/g,"").replace(/ads/,""); return CH_COLORS[k]||CH_COLORS.default; }
-
-/* STORAGE */
-function g(k){ var v=localStorage.getItem("ir_"+k); try{ return v!==null?JSON.parse(v):undefined; }catch(e){ return v; } }
-function s(k,v){ localStorage.setItem("ir_"+k, typeof v==="object"?JSON.stringify(v):v); }
-function gd(k){ var v=g(k); return v!==undefined?v:DEFAULTS[k]; }
-
-/* STARTUP */
-window.addEventListener("load", function(){ applyLogoSilent(); showOv("login-screen"); });
-function applyLogoSilent(){
-  var url=gd("logo_url");
-  ["topbar-logo","login-logo"].forEach(function(id){
-    var el=document.getElementById(id); if(!el) return;
-    if(url){ el.src=url; el.style.display="block"; } else el.style.display="none";
-  });
-  var hasLogo=!!gd("logo_url");
-  var tm=document.getElementById("topbar-mark"); if(tm) tm.style.display=hasLogo?"none":"flex";
-  var d=document.getElementById("login-dot"); if(d) d.style.display=hasLogo?"none":"block";
-}
-function showOv(id){ var el=document.getElementById(id); if(el) el.classList.remove("off"); }
-function hideOv(id){ var el=document.getElementById(id); if(el) el.classList.add("off"); }
-
-/* PASSWORDS */
-function adminPw(){ var o=g("admin_pw_override"); return o!==undefined ? o : ADMIN_PASSWORD; }
-function viewerPw(){ var o=g("viewer_pw_override"); return o!==undefined ? o : VIEWER_PASSWORD; }
+function sheetNameMap(){ var nm={}; CFG.SHEETS.forEach(function(x){ nm[x.tab]=x.name; }); return nm; }
 
 /* LOGIN */
+var currentRole = "";
+var refreshTimer = null;
+
+window.addEventListener("load", function(){ document.getElementById("login-screen").classList.remove("off"); });
+
 function doLogin(){
-  var pw=document.getElementById("l-pw").value, e=document.getElementById("l-err");
-  if(pw===adminPw()){ currentRole="admin"; }
-  else if(pw===viewerPw()){ currentRole="viewer"; }
-  else { showErr(e,"Wrong password. Try again."); return; }
-  applyRole();
-  hideOv("login-screen"); document.getElementById("app").classList.add("on"); initApp();
+  var pw = document.getElementById("l-pw").value;
+  var e  = document.getElementById("l-err");
+  if(pw === CFG.ADMIN_PASSWORD)       { currentRole = "admin"; }
+  else if(pw === CFG.VIEWER_PASSWORD) { currentRole = "viewer"; }
+  else { showErr(e, "Wrong password. Try again."); return; }
+  document.getElementById("login-screen").classList.add("off");
+  document.getElementById("app").classList.add("on");
+  initApp();
 }
-function applyRole(){
-  var btn=document.getElementById("btn-settings");
-  if(btn) btn.style.display = currentRole==="admin" ? "" : "none";
+function doLogout(){
+  document.getElementById("app").classList.remove("on");
+  document.getElementById("login-screen").classList.remove("off");
+  document.getElementById("l-pw").value = "";
+  stopAutoRefresh();
+  currentRole = "";
 }
-function doLogout(){ document.getElementById("app").classList.remove("on"); showOv("login-screen"); document.getElementById("l-pw").value=""; stopAutoRefresh(); }
 function showErr(el,msg){ el.textContent=msg; el.classList.add("on"); setTimeout(function(){ el.classList.remove("on"); },3000); }
 document.addEventListener("keydown", function(e){
-  if(e.key!=="Enter") return;
-  var la=document.getElementById("login-screen");
-  if(la&&!la.classList.contains("off")) doLogin();
+  if(e.key !== "Enter") return;
+  var la = document.getElementById("login-screen");
+  if(la && !la.classList.contains("off")) doLogin();
 });
 
-/* DRAWER */
-function openDrawer(){ if(currentRole!=="admin") return; fillDrawer(); document.getElementById("drawer").classList.add("on"); document.getElementById("drawer-overlay").classList.add("on"); }
-function closeDrawer(){ document.getElementById("drawer").classList.remove("on"); document.getElementById("drawer-overlay").classList.remove("on"); }
-function fillDrawer(){
-  document.getElementById("cfg-script").value    = gd("script_url");
-  document.getElementById("cfg-sheet-url").value = gd("sheet_url");
-  document.getElementById("cfg-refresh").value   = gd("refresh_min");
-  document.getElementById("cfg-target-p").value  = gd("target_p");
-  document.getElementById("cfg-target-r").value  = gd("target_r");
-  document.getElementById("show-admin").value    = adminPw();
-  document.getElementById("show-viewer").value   = viewerPw();
-  // FIX: was getElementById("cfg-logo") — id does not exist, causes crash before drawer opens
-  document.getElementById("cfg-logo-url").value  = gd("logo_url");
-  renderSheetList();
-}
-function saved(id){ var el=document.getElementById(id); el.classList.add("on"); setTimeout(function(){ el.classList.remove("on"); },2000); }
-function saveCfgConn(){
-  s("script_url",document.getElementById("cfg-script").value.trim());
-  s("sheet_url",document.getElementById("cfg-sheet-url").value.trim());
-  s("refresh_min",Number(document.getElementById("cfg-refresh").value)||DEFAULTS.refresh_min);
-  saved("sv-conn"); startAutoRefresh(); loadAllData(true);
-}
-function saveCfgTarget(){
-  s("target_p",Number(document.getElementById("cfg-target-p").value)||DEFAULTS.target_p);
-  s("target_r",Number(document.getElementById("cfg-target-r").value)||0);
-  saved("sv-target"); applyAll();
-}
-function saveCfgDisplay(){
-  // FIX: was getElementById("cfg-logo") — same crash as above
-  s("logo_url",document.getElementById("cfg-logo-url").value.trim());
-  applyLogoSilent(); saved("sv-disp");
-}
-function togglePw(id, btn){
-  var el=document.getElementById(id);
-  if(el.type==="password"){ el.type="text"; btn.textContent="Hide"; }
-  else { el.type="password"; btn.textContent="Show"; }
-}
-function genPasswordConfig(){
-  var e=document.getElementById("pw-err");
-  var newA=document.getElementById("cfg-pw-new").value.trim();
-  var newV=document.getElementById("cfg-vpw-new").value.trim();
-  var a=newA||adminPw(), v=newV||viewerPw();
-  if(a.length<6){ showErr(e,"Admin password must be at least 6 characters."); return; }
-  if(v.length<6){ showErr(e,"Viewer password must be at least 6 characters."); return; }
-  if(a===v){ showErr(e,"Admin and viewer passwords must be different."); return; }
-  s("admin_pw_override", a); s("viewer_pw_override", v);
-  document.getElementById("show-admin").value=a;
-  document.getElementById("show-viewer").value=v;
-  var lines='var ADMIN_PASSWORD  = "'+a+'";\nvar VIEWER_PASSWORD = "'+v+'";';
-  var out=document.getElementById("pw-config-out");
-  out.textContent=lines; out.style.display="block";
-  document.getElementById("pw-copy-btn").style.display="block";
-}
-function copyPwConfig(){
-  var txt=document.getElementById("pw-config-out").textContent;
-  navigator.clipboard.writeText(txt).then(function(){
-    var b=document.getElementById("pw-copy-btn"); b.textContent="Copied!"; setTimeout(function(){ b.textContent="Copy lines"; },2000);
-  });
-}
-function getSheets(){ return gd("sheets")||[]; }
-function renderSheetList(){
-  var sh=getSheets(), html=sh.length?"":'<div style="font-size:12px;color:var(--muted);padding:4px 0;">No sheets yet.</div>';
-  sh.forEach(function(x,i){ html+='<div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-info"><div class="sheet-name">'+esc(x.name)+'</div><div class="sheet-tab">Tab: '+esc(x.tab)+'</div></div><button class="sheet-del" onclick="delSheet('+i+')">Remove</button></div>'; });
-  document.getElementById("sheet-list").innerHTML=html;
-}
-function addSheet(){
-  var n=document.getElementById("new-sname").value.trim(), t=document.getElementById("new-stab").value.trim(), e=document.getElementById("sheet-err");
-  if(!n||!t){ showErr(e,"Fill both fields."); return; }
-  var sh=getSheets(); sh.push({name:n,tab:t}); s("sheets",sh);
-  document.getElementById("new-sname").value=""; document.getElementById("new-stab").value=""; renderSheetList();
-}
-function delSheet(i){ var sh=getSheets(); sh.splice(i,1); s("sheets",sh); renderSheetList(); }
+/* APP INIT */
+var allData = [], trendChart = null, donutChart = null;
 
-/* DATA */
-var allData=[], lastUpdate="", trendChart=null, donutChart=null, refreshTimer=null, currentRole="admin";
-function initApp(){ applyLogoSilent(); startAutoRefresh(); loadAllData(false); }
-function startAutoRefresh(){ stopAutoRefresh(); var m=Number(gd("refresh_min"))||15; refreshTimer=setInterval(function(){ loadAllData(false); }, m*60*1000); }
-function stopAutoRefresh(){ if(refreshTimer){ clearInterval(refreshTimer); refreshTimer=null; } }
+function initApp(){
+  startAutoRefresh();
+  loadAllData(false);
+}
+function startAutoRefresh(){
+  stopAutoRefresh();
+  refreshTimer = setInterval(function(){ loadAllData(false); }, CFG.REFRESH_MIN * 60 * 1000);
+}
+function stopAutoRefresh(){ if(refreshTimer){ clearInterval(refreshTimer); refreshTimer = null; } }
 
 function loadAllData(manual){
-  var url=gd("script_url");
-  if(!url){
-    document.getElementById("cfg-banner").classList.add("on");
-    document.getElementById("tbl-body").innerHTML='<div class="loading-row">Apps Script URL not set. Open Settings.</div>';
-    document.getElementById("dash-sub-text").textContent="Not connected to data"; return;
-  }
-  document.getElementById("cfg-banner").classList.remove("on");
   if(manual) document.getElementById("refresh-icon").classList.add("spin");
-  fetch(url).then(function(r){ return r.json(); }).then(function(json){
-    allData=(json.data||[]); lastUpdate=json.lastUpdate||"";
-    buildFilters(); applyAll();
-    var stamp=lastUpdate?("Database last updated: "+lastUpdate):("Fetched: "+new Date().toLocaleString("en-GB",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}));
-    document.getElementById("dash-sub-text").textContent=stamp;
-    document.getElementById("refresh-icon").classList.remove("spin");
-  }).catch(function(){
-    document.getElementById("tbl-body").innerHTML='<div class="loading-row">Failed to load data. Check the Apps Script URL.</div>';
-    document.getElementById("dash-sub-text").textContent="Connection failed";
-    document.getElementById("refresh-icon").classList.remove("spin");
+  fetch(CFG.SCRIPT_URL)
+    .then(function(r){ return r.json(); })
+    .then(function(json){
+      allData = json.data || [];
+      buildFilters();
+      applyAll();
+      var stamp = json.lastUpdate
+        ? ("Database last updated: " + json.lastUpdate)
+        : ("Fetched: " + new Date().toLocaleString("en-GB",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}));
+      document.getElementById("dash-sub-text").textContent = stamp;
+      document.getElementById("refresh-icon").classList.remove("spin");
+    })
+    .catch(function(){
+      document.getElementById("tbl-body").innerHTML = '<div class="loading-row">Gagal memuat data. Cek koneksi atau Apps Script URL.</div>';
+      document.getElementById("dash-sub-text").textContent = "Connection failed";
+      document.getElementById("refresh-icon").classList.remove("spin");
+    });
+}
+
+/* FILTERS */
+function buildFilters(){
+  var nm = sheetNameMap();
+  fillSel("f-source","All channels", uniq("_source"), nm);
+  fillSel("f-region","All regions",  uniq("wilayah"),  null);
+}
+function uniq(key){ var o={}; allData.forEach(function(r){ if(r[key]) o[r[key]]=1; }); return Object.keys(o).sort(); }
+function fillSel(id, allLabel, keys, nm){
+  var sel = document.getElementById(id), cur = sel.value;
+  sel.innerHTML = '<option value="">' + allLabel + '</option>';
+  keys.forEach(function(k){
+    var o = document.createElement("option");
+    o.value = k; o.textContent = nm&&nm[k] ? nm[k] : k;
+    sel.appendChild(o);
   });
+  sel.value = cur;
 }
 
 function getFilteredData(){
-  var src=document.getElementById("f-source").value.toLowerCase(), region=document.getElementById("f-region").value.toLowerCase(),
-      search=document.getElementById("f-search").value.toLowerCase(),
-      dfrom=document.getElementById("date-from").value, dto=document.getElementById("date-to").value;
+  var src    = document.getElementById("f-source").value.toLowerCase();
+  var region = document.getElementById("f-region").value.toLowerCase();
+  var search = document.getElementById("f-search").value.toLowerCase();
+  var dfrom  = document.getElementById("date-from").value;
+  var dto    = document.getElementById("date-to").value;
   return allData.filter(function(r){
-    if(src&&(r._source||"").toLowerCase()!==src) return false;
-    if(region&&(r.wilayah||"").toLowerCase()!==region) return false;
-    if(search&&!(r.media_name||"").toLowerCase().includes(search)&&!(r.link||"").toLowerCase().includes(search)&&!(r.referral_code||"").toLowerCase().includes(search)) return false;
-    if(dfrom||dto){
-  var s=String(r.date||"").trim();
-  // Parse dd/MM/yyyy manual
-  var mp=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  var tglStr=mp?(mp[3]+"-"+mp[2].padStart(2,"0")+"-"+mp[1].padStart(2,"0")):s;
-  if(!tglStr) return true;
-  if(dfrom&&tglStr<dfrom) return false;
-  if(dto&&tglStr>dto) return false;
-}
+    if(src    && (r._source||"").toLowerCase() !== src)    return false;
+    if(region && (r.wilayah||"").toLowerCase() !== region) return false;
+    if(search && !(r.media_name||"").toLowerCase().includes(search)
+              && !(r.link||"").toLowerCase().includes(search)
+              && !(r.referral_code||"").toLowerCase().includes(search)) return false;
+    if(dfrom || dto){
+      var s  = String(r.date||"").trim();
+      var mp = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      var ts = mp ? (mp[3]+"-"+mp[2].padStart(2,"0")+"-"+mp[1].padStart(2,"0")) : s;
+      if(!ts) return true;
+      if(dfrom && ts < dfrom) return false;
+      if(dto   && ts > dto)   return false;
+    }
     return true;
   });
 }
 function clearDates(){ document.getElementById("date-from").value=""; document.getElementById("date-to").value=""; applyAll(); }
+
 function applyAll(){
-  var d=getFilteredData();
-  renderKPI(d); renderTrend(d);
-  renderRank("rank-channel","_source",true);
+  var d = getFilteredData();
+  renderKPI(d);
+  renderTrend(d);
+  renderRank("rank-channel","_source",true, d);
   renderDonut(d);
   renderConversionTable(d);
-  renderRank("rank-region","wilayah",false,d);
-  renderRank("rank-media","media_name",false,d);
+  renderRank("rank-region","wilayah",false, d);
+  renderRank("rank-media","media_name",false, d);
   renderTable(d);
-}
-function buildFilters(){
-  var nm=sheetNameMap();
-  fillSel("f-source","All channels", uniq("_source"), nm);
-  fillSel("f-region","All regions", uniq("wilayah"), null);
-}
-function uniq(key){ var o={}; allData.forEach(function(r){ if(r[key]) o[r[key]]=1; }); return Object.keys(o).sort(); }
-function fillSel(id, allLabel, keys, nm){
-  var sel=document.getElementById(id), cur=sel.value;
-  sel.innerHTML='<option value="">'+allLabel+'</option>';
-  keys.forEach(function(k){ var o=document.createElement("option"); o.value=k; o.textContent=nm&&nm[k]?nm[k]:k; sel.appendChild(o); });
-  sel.value=cur;
 }
 
 /* KPI */
 function renderKPI(d){
-  var tp=0,tr=0,tc=0;
+  var tp=0, tr=0, tc=0;
   d.forEach(function(r){ tp+=num(r.jumlah_pendaftar); tr+=num(r.total_pendapatan); tc+=num(r.cost); });
-  var targetP=gd("target_p"), targetR=gd("target_r");
-  var pctP=targetP?Math.min(Math.round(tp/targetP*100),100):0;
-  var pctR=targetR?Math.min(Math.round(tr/targetR*100),100):0;
-  var cpa=tp?Math.round(tc/tp):0;
-  set("k-total",fmtNum(tp)); set("k-target-p",fmtNum(targetP)); set("k-total-pct",pctP+"%"); document.getElementById("k-total-bar").style.width=pctP+"%";
-  set("k-rev",fmtRp(tr)); set("k-target-r",targetR?fmtRp(targetR):"—"); set("k-rev-pct",pctR+"%"); document.getElementById("k-rev-bar").style.width=pctR+"%";
-  set("k-cost",fmtRp(tc)); set("k-cpa",fmtRp(cpa));
+  var pctP = CFG.TARGET_P ? Math.min(Math.round(tp/CFG.TARGET_P*100),100) : 0;
+  var pctR = CFG.TARGET_R ? Math.min(Math.round(tr/CFG.TARGET_R*100),100) : 0;
+  var cpa  = tp ? Math.round(tc/tp) : 0;
+  set("k-total",    fmtNum(tp));
+  set("k-target-p", fmtNum(CFG.TARGET_P));
+  set("k-total-pct", pctP+"%");
+  document.getElementById("k-total-bar").style.width = pctP+"%";
+  set("k-rev",      fmtRp(tr));
+  set("k-target-r", CFG.TARGET_R ? fmtRp(CFG.TARGET_R) : "—");
+  set("k-rev-pct",  pctR+"%");
+  document.getElementById("k-rev-bar").style.width = pctR+"%";
+  set("k-cost", fmtRp(tc));
+  set("k-cpa",  fmtRp(cpa));
 }
 function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
 
@@ -740,85 +507,106 @@ function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v;
 function monthKey(v){
   if(!v) return null;
   var s = String(v).trim();
-  // dd/MM/yyyy → ambil bulan dan tahun langsung tanpa new Date()
   var m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if(m) return m[3] + "-" + m[2].padStart(2,"0");
-  // yyyy-MM-dd
+  if(m) return m[3]+"-"+m[2].padStart(2,"0");
   var m2 = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if(m2) return m2[1] + "-" + m2[2];
+  if(m2) return m2[1]+"-"+m2[2];
   return null;
 }
 function monthLabel(key){ var p=key.split("-"); var names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return names[Number(p[1])-1]+" "+p[0]; }
+
 function renderTrend(d){
-  var byMonth={};
-  d.forEach(function(r){ var k=monthKey(r.date); if(!k) return; if(!byMonth[k]) byMonth[k]={reg:0,rev:0}; byMonth[k].reg+=num(r.jumlah_pendaftar); byMonth[k].rev+=num(r.total_pendapatan); });
-  var keys=Object.keys(byMonth).sort();
-  var labels=keys.map(monthLabel), reg=keys.map(function(k){ return byMonth[k].reg; }), rev=keys.map(function(k){ return byMonth[k].rev; });
-  if(trendChart){ trendChart.destroy(); trendChart=null; }
-  trendChart=new Chart(document.getElementById("chart-trend").getContext("2d"),{
-    data:{ labels:labels, datasets:[
-      { type:"bar", label:"Registrations", data:reg, backgroundColor:"#E1241B", borderRadius:5, borderSkipped:false, yAxisID:"y", order:2 },
-      { type:"line", label:"Revenue", data:rev, borderColor:"#1D4ED8", backgroundColor:"#1D4ED8", borderWidth:2.5, pointRadius:3, pointBackgroundColor:"#1D4ED8", tension:0.3, yAxisID:"y1", order:1 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:function(c){ return c.dataset.label==="Revenue" ? " "+fmtRp(c.parsed.y) : " "+fmtNum(c.parsed.y)+" registrations"; } } } },
-      scales:{
-        x:{ grid:{ display:false }, ticks:{ font:{ size:11 }, color:"#A89B9A" } },
-        y:{ position:"left", grid:{ color:"#F0E7E6" }, ticks:{ font:{ size:11 }, color:"#A89B9A", callback:function(v){ return v>=1000?(v/1000).toFixed(0)+"K":v; } } },
-        y1:{ position:"right", grid:{ display:false }, ticks:{ font:{ size:11 }, color:"#A89B9A", callback:function(v){ return v>=1e9?(v/1e9).toFixed(1)+"M":v>=1e6?(v/1e6).toFixed(0)+"jt":v; } } }
-      } }
+  var byMonth = {};
+  d.forEach(function(r){
+    var k = monthKey(r.date); if(!k) return;
+    if(!byMonth[k]) byMonth[k]={reg:0,rev:0};
+    byMonth[k].reg += num(r.jumlah_pendaftar);
+    byMonth[k].rev += num(r.total_pendapatan);
   });
-  document.getElementById("chart-legend-trend").innerHTML=
+  var keys   = Object.keys(byMonth).sort();
+  var labels = keys.map(monthLabel);
+  var reg    = keys.map(function(k){ return byMonth[k].reg; });
+  var rev    = keys.map(function(k){ return byMonth[k].rev; });
+  if(trendChart){ trendChart.destroy(); trendChart=null; }
+  trendChart = new Chart(document.getElementById("chart-trend").getContext("2d"),{
+    data:{ labels:labels, datasets:[
+      { type:"bar",  label:"Registrations", data:reg, backgroundColor:"#E1241B", borderRadius:5, borderSkipped:false, yAxisID:"y",  order:2 },
+      { type:"line", label:"Revenue",       data:rev, borderColor:"#1D4ED8", backgroundColor:"#1D4ED8", borderWidth:2.5, pointRadius:3, pointBackgroundColor:"#1D4ED8", tension:0.3, yAxisID:"y1", order:1 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:function(c){ return c.dataset.label==="Revenue" ? " "+fmtRp(c.parsed.y) : " "+fmtNum(c.parsed.y)+" registrations"; } } } },
+      scales:{
+        x:  { grid:{ display:false }, ticks:{ font:{size:11}, color:"#A89B9A" } },
+        y:  { position:"left",  grid:{ color:"#F0E7E6" }, ticks:{ font:{size:11}, color:"#A89B9A", callback:function(v){ return v>=1000?(v/1000).toFixed(0)+"K":v; } } },
+        y1: { position:"right", grid:{ display:false },   ticks:{ font:{size:11}, color:"#A89B9A", callback:function(v){ return v>=1e9?(v/1e9).toFixed(1)+"M":v>=1e6?(v/1e6).toFixed(0)+"jt":v; } } }
+      }
+    }
+  });
+  document.getElementById("chart-legend-trend").innerHTML =
     '<span class="legend-item"><span class="legend-sq" style="background:#E1241B"></span>Registrations</span>'+
     '<span class="legend-item"><span class="legend-sq" style="background:#1D4ED8"></span>Revenue</span>';
 }
 
 /* RANK LISTS */
 function renderRank(elId, key, isChannel, d){
-  d = d || getFilteredData();
-  var nm=sheetNameMap();
-  var groups=groupBy(d,key,"jumlah_pendaftar");
-  var limit=isChannel?5:10;
-  groups=groups.slice(0,limit);
-  var max=groups.length?groups[0][1]:1, total=groups.reduce(function(s,g){ return s+g[1]; },0)||1;
-  var html=groups.map(function(g,idx){
-    var label=isChannel?(nm[g[0]]||g[0]):(g[0]||"(none)");
-    var color=isChannel?chColor(label):"#E1241B";
-    var w=Math.round(g[1]/max*100), pct=Math.round(g[1]/total*100);
-    var nameCls=isChannel?"ch-name ch-name-fixed":"ch-name";
-    return '<div class="ch-row"><div class="ch-rank">'+(idx+1)+'</div><div class="ch-dot" style="background:'+color+'"></div><div class="'+nameCls+'" title="'+esc(label)+'">'+esc(label)+'</div><div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+w+'%;background:'+color+'"></div></div><div class="ch-val">'+fmtNum(g[1])+'</div><div class="ch-pct">'+pct+'%</div></div>';
+  var nm = sheetNameMap();
+  var groups = groupBy(d, key, "jumlah_pendaftar").slice(0, isChannel?5:10);
+  var max    = groups.length ? groups[0][1] : 1;
+  var total  = groups.reduce(function(s,g){ return s+g[1]; },0) || 1;
+  var html = groups.map(function(g,idx){
+    var label = isChannel ? (nm[g[0]]||g[0]) : (g[0]||"(none)");
+    var color = isChannel ? chColor(label) : "#E1241B";
+    var w = Math.round(g[1]/max*100), pct = Math.round(g[1]/total*100);
+    return '<div class="ch-row">'+
+      '<div class="ch-rank">'+(idx+1)+'</div>'+
+      '<div class="ch-dot" style="background:'+color+'"></div>'+
+      '<div class="'+(isChannel?"ch-name ch-name-fixed":"ch-name")+'" title="'+esc(label)+'">'+esc(label)+'</div>'+
+      '<div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+w+'%;background:'+color+'"></div></div>'+
+      '<div class="ch-val">'+fmtNum(g[1])+'</div>'+
+      '<div class="ch-pct">'+pct+'%</div>'+
+      '</div>';
   }).join("");
-  document.getElementById(elId).innerHTML=html||'<div style="color:var(--muted);font-size:13px;padding:10px 0;">No data</div>';
+  document.getElementById(elId).innerHTML = html || '<div style="color:var(--muted);font-size:13px;padding:10px 0;">No data</div>';
 }
 
 /* DONUT */
 function renderDonut(d){
-  var nm=sheetNameMap();
-  var byR=groupBy(d,"_source","total_pendapatan");
-  var labels=byR.map(function(g){ return nm[g[0]]||g[0]; }), vals=byR.map(function(g){ return g[1]; }), colors=labels.map(chColor);
+  var nm  = sheetNameMap();
+  var byR = groupBy(d,"_source","total_pendapatan");
+  var labels = byR.map(function(g){ return nm[g[0]]||g[0]; });
+  var vals   = byR.map(function(g){ return g[1]; });
+  var colors = labels.map(chColor);
   if(donutChart){ donutChart.destroy(); donutChart=null; }
-  donutChart=new Chart(document.getElementById("chart-donut").getContext("2d"),{
-    type:"doughnut", data:{ labels:labels, datasets:[{ data:vals, backgroundColor:colors, borderWidth:2, borderColor:"#FFFFFF" }] },
+  donutChart = new Chart(document.getElementById("chart-donut").getContext("2d"),{
+    type:"doughnut",
+    data:{ labels:labels, datasets:[{ data:vals, backgroundColor:colors, borderWidth:2, borderColor:"#FFFFFF" }] },
     options:{ responsive:true, maintainAspectRatio:false, cutout:"62%", plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:function(c){ return " "+fmtRp(c.parsed); } } } } }
   });
-  var tot=vals.reduce(function(a,b){ return a+b; },0);
-  document.getElementById("chart-legend-donut").innerHTML=labels.map(function(l,i){ var pct=tot?Math.round(vals[i]/tot*100):0; return '<span class="legend-item"><span class="legend-sq" style="background:'+colors[i]+'"></span>'+esc(l)+' '+pct+'%</span>'; }).join("");
+  var tot = vals.reduce(function(a,b){ return a+b; },0);
+  document.getElementById("chart-legend-donut").innerHTML = labels.map(function(l,i){
+    var pct = tot ? Math.round(vals[i]/tot*100) : 0;
+    return '<span class="legend-item"><span class="legend-sq" style="background:'+colors[i]+'"></span>'+esc(l)+' '+pct+'%</span>';
+  }).join("");
 }
 
 /* CONVERSION TABLE */
 function renderConversionTable(d){
-  var nm=sheetNameMap();
-  var imp=groupBy(d,"_source","impressions").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
-  var rch=groupBy(d,"_source","reach").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
-  var cost=groupBy(d,"_source","cost").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
-  var groups=groupBy(d,"_source","jumlah_pendaftar");
-  var html=groups.map(function(g){
-    var label=nm[g[0]]||g[0], impr=imp[g[0]]||0, reach=rch[g[0]]||0, pend=g[1], cst=cost[g[0]]||0;
-    var conv=impr?(pend/impr*100):null, cpa=pend?Math.round(cst/pend):null;
-    var badge=conv===null?'<span class="conv-badge" style="background:var(--bg);color:var(--muted)">No data</span>'
-      :conv>=3?'<span class="conv-badge conv-high">High</span>'
-      :conv>=1?'<span class="conv-badge conv-mid">Normal</span>'
-      :'<span class="conv-badge conv-low">Low</span>';
-    return '<tr><td style="font-weight:600;">'+esc(label)+'</td>'+
+  var nm   = sheetNameMap();
+  var imp  = groupBy(d,"_source","impressions").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
+  var rch  = groupBy(d,"_source","reach").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
+  var cost = groupBy(d,"_source","cost").reduce(function(o,g){ o[g[0]]=g[1]; return o; },{});
+  var groups = groupBy(d,"_source","jumlah_pendaftar");
+  var html = groups.map(function(g){
+    var label = nm[g[0]]||g[0], impr=imp[g[0]]||0, reach=rch[g[0]]||0, pend=g[1], cst=cost[g[0]]||0;
+    var conv = impr ? (pend/impr*100) : null;
+    var cpa  = pend ? Math.round(cst/pend) : null;
+    var badge = conv===null
+      ? '<span class="conv-badge" style="background:var(--bg);color:var(--muted)">No data</span>'
+      : conv>=3 ? '<span class="conv-badge conv-high">High</span>'
+      : conv>=1 ? '<span class="conv-badge conv-mid">Normal</span>'
+      :            '<span class="conv-badge conv-low">Low</span>';
+    return '<tr>'+
+      '<td style="font-weight:600;">'+esc(label)+'</td>'+
       '<td>'+(impr?fmtNum(impr):dash())+'</td>'+
       '<td>'+(reach?fmtNum(reach):dash())+'</td>'+
       '<td class="num-bold">'+fmtNum(pend)+'</td>'+
@@ -826,33 +614,38 @@ function renderConversionTable(d){
       '<td>'+(cpa!==null&&cst?fmtRp(cpa):dash())+'</td>'+
       '<td>'+badge+'</td></tr>';
   }).join("");
-  document.getElementById("conv-tbody").innerHTML=html||'<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">No data</td></tr>';
+  document.getElementById("conv-tbody").innerHTML = html || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">No data</td></tr>';
 }
 function dash(){ return '<span style="color:var(--muted)">—</span>'; }
 
 /* DETAIL TABLE */
 var sortCol="jumlah_pendaftar", sortDir="desc";
 function renderTable(d){
-  document.getElementById("tbl-count").textContent=fmtNum(d.length)+" rows";
-  if(!d.length){ document.getElementById("tbl-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128202;</div><div>No matching data</div></div>'; return; }
-  var nm=sheetNameMap();
-  var numCols=["jumlah_pendaftar","total_pendapatan","impressions","reach","lp_views","cost","click","register_button_click"];
-  var sorted=d.slice().sort(function(a,b){
-    var isNum=numCols.indexOf(sortCol)>=0;
-    var av=isNum?num(a[sortCol]):String(a[sortCol]||"").toLowerCase();
-    var bv=isNum?num(b[sortCol]):String(b[sortCol]||"").toLowerCase();
-    if(av<bv) return sortDir==="asc"?-1:1; if(av>bv) return sortDir==="asc"?1:-1; return 0;
+  document.getElementById("tbl-count").textContent = fmtNum(d.length)+" rows";
+  if(!d.length){
+    document.getElementById("tbl-body").innerHTML = '<div class="empty-state"><div class="empty-icon">&#128202;</div><div>No matching data</div></div>';
+    return;
+  }
+  var nm      = sheetNameMap();
+  var numCols = ["jumlah_pendaftar","total_pendapatan","impressions","reach","lp_views","cost","click","register_button_click"];
+  var sorted  = d.slice().sort(function(a,b){
+    var isNum = numCols.indexOf(sortCol)>=0;
+    var av = isNum ? num(a[sortCol]) : String(a[sortCol]||"").toLowerCase();
+    var bv = isNum ? num(b[sortCol]) : String(b[sortCol]||"").toLowerCase();
+    if(av<bv) return sortDir==="asc"?-1:1;
+    if(av>bv) return sortDir==="asc"?1:-1;
+    return 0;
   });
-  var html='<table class="detail"><thead><tr>'+
+  var html = '<table class="detail"><thead><tr>'+
     '<th>Date</th><th>Region</th><th>Channel</th><th>Referral Code</th><th>Media Name</th>'+
     th("jumlah_pendaftar","Registrations")+th("total_pendapatan","Revenue")+
     th("impressions","Impressions")+th("reach","Reach")+th("lp_views","LP Views")+
     '<th>CTR</th>'+th("cost","Cost")+th("click","Click")+th("register_button_click","Reg. Click")+
     '</tr></thead><tbody>';
   sorted.forEach(function(r){
-    var src=nm[r._source]||r._source||"-", c=chColor(src);
-    html+='<tr>'+
-      '<td class="muted">'+(r.date?fmtDate(r.date):"—")+'</td>'+
+    var src = nm[r._source]||r._source||"-", c = chColor(src);
+    html += '<tr>'+
+      '<td class="muted">'+(r.date ? fmtDate(r.date) : "—")+'</td>'+
       '<td>'+esc(r.wilayah||"—")+'</td>'+
       '<td><span class="ch-pill" style="background:'+c+'18;color:'+c+'">'+esc(src)+'</span></td>'+
       '<td><span class="code-tag">'+esc(r.referral_code||"—")+'</span></td>'+
@@ -868,29 +661,28 @@ function renderTable(d){
       '<td>'+fmtNum(num(r.register_button_click))+'</td>'+
       '</tr>';
   });
-  html+='</tbody></table>';
-  document.getElementById("tbl-body").innerHTML=html;
+  html += '</tbody></table>';
+  document.getElementById("tbl-body").innerHTML = html;
 }
 function th(col,label){ var cls=sortCol===col?("sortable sort-"+sortDir):"sortable"; return '<th class="'+cls+'" onclick="doSort(\''+col+'\')">'+label+'<span class="sort-arrow"></span></th>'; }
 function doSort(col){ if(sortCol===col) sortDir=sortDir==="asc"?"desc":"asc"; else { sortCol=col; sortDir="desc"; } renderTable(getFilteredData()); }
 
 /* HELPERS */
-function sheetNameMap(){ var nm={}; getSheets().forEach(function(x){ nm[x.tab]=x.name; }); return nm; }
 function groupBy(d,key,valKey){ var o={}; d.forEach(function(r){ var k=r[key]||"(none)"; o[k]=(o[k]||0)+num(r[valKey]); }); return Object.entries(o).sort(function(a,b){ return b[1]-a[1]; }); }
 function num(v){ if(typeof v==="number") return v; var n=parseFloat(String(v||"").replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
 function fmtNum(n){ return Math.round(num(n)).toLocaleString("en-US"); }
 function fmtRp(n){ var v=Math.round(num(n)); if(v>=1e12) return "Rp "+(v/1e12).toFixed(1)+"T"; if(v>=1e9) return "Rp "+(v/1e9).toFixed(1)+"M"; if(v>=1e6) return "Rp "+(v/1e6).toFixed(1)+"jt"; return "Rp "+v.toLocaleString("en-US"); }
-function fmtDate(v){ return String(v || "—"); }
+function fmtDate(v){ return String(v||"—"); }
 function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
 /* EXPORT PDF */
 function exportPDF(){
-  var root=document.getElementById("pdf-root");
+  var root = document.getElementById("pdf-root");
   document.querySelectorAll(".no-pdf").forEach(function(el){ el.dataset.prev=el.style.display; el.style.display="none"; });
   html2canvas(root,{ scale:2, backgroundColor:"#FBF8F7", useCORS:true }).then(function(canvas){
     document.querySelectorAll(".no-pdf").forEach(function(el){ el.style.display=el.dataset.prev||""; });
-    var img=canvas.toDataURL("image/png");
-    var pdf=new window.jspdf.jsPDF("p","mm","a4");
+    var img = canvas.toDataURL("image/png");
+    var pdf = new window.jspdf.jsPDF("p","mm","a4");
     var pw=pdf.internal.pageSize.getWidth(), ph=pdf.internal.pageSize.getHeight();
     var ih=canvas.height*pw/canvas.width, left=ih, pos=0;
     pdf.addImage(img,"PNG",0,pos,pw,ih); left-=ph;
@@ -898,7 +690,7 @@ function exportPDF(){
     pdf.save("Internet-Rakyat-Dashboard-"+new Date().toISOString().slice(0,10)+".pdf");
   }).catch(function(){
     document.querySelectorAll(".no-pdf").forEach(function(el){ el.style.display=el.dataset.prev||""; });
-    alert("Failed to generate PDF. Please try again.");
+    alert("Gagal generate PDF. Coba lagi.");
   });
 }
 </script>
