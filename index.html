@@ -326,10 +326,10 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
       </div>
     </div>
 
-    <div class="section-label">Monthly trend</div>
+    <div class="section-label">Weekly trend</div>
     <div class="card full">
-      <div class="card-title">Registrations &amp; revenue by month</div>
-      <div class="card-sub">Totalled across all channels</div>
+      <div class="card-title">Registrations &amp; revenue by week</div>
+      <div class="card-sub">Fri&#8211;Thu, all channels</div>
       <div id="chart-legend-trend" class="chart-legend"></div>
       <div style="position:relative;height:300px;"><canvas id="chart-trend"></canvas></div>
     </div>
@@ -389,7 +389,6 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
       <div class="table-scroll" id="tbl-body"><div class="loading-row">Loading data...</div></div>
     </div>
 
-    <!-- KOL & HOMELESS (commission) — paling bawah -->
     <div class="section-label">KOL &amp; Homeless</div>
     <div class="table-wrap full">
       <div class="table-bar">
@@ -408,30 +407,21 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
 <div id="toast"></div>
 
 <script>
-/* ============================================================
-   HARDCODED CONFIG — edit di sini kalau ada perubahan
-   ============================================================ */
 var CFG = {
-  ADMIN_PASSWORD : "admin123",                 // SATU password admin (akses penuh)
+  ADMIN_PASSWORD : "IRAWC123",
   SCRIPT_URL     : "https://script.google.com/macros/s/AKfycbx2GYT4IifWEqgIAmzRuA5_-pj8MqXY3zFZP_zal84W2KXXtFsqSemPH8qnSc40CbGt/exec",
   LOGO_URL       : "https://bgsspace.github.io/dashboardIRA/logo.png",
-  GFORM_URL      : "https://docs.google.com/forms/d/e/1FAIpQLSdAJ_3H87EEsyLlV5UBWv1MTMHxZ5JilhtqW-HwRYNYvsg5zA/viewform",  // form norek (tombol saja)
-  COMMISSION_PER : 30000,                        // komisi per pendaftar (KOL & Homeless)
-  TARGET_P       : 5000000,                      // target pendaftar
-  TARGET_R       : 0,                            // target pendapatan (0 = belum dipakai)
-  REFRESH_MIN    : 15,                           // auto-refresh (menit)
+  GFORM_URL      : "https://docs.google.com/forms/d/e/1FAIpQLSdAJ_3H87EEsyLlV5UBWv1MTMHxZ5JilhtqW-HwRYNYvsg5zA/viewform",
+  COMMISSION_PER : 30000,
+  TARGET_P       : 5000000,
+  TARGET_R       : 0,
+  REFRESH_MIN    : 15,
   SHEETS: [
     { name: "Homeless", tab: "Homeless" },
     { name: "KOL",      tab: "KOL"      },
     { name: "Meta Ads", tab: "Meta"     },
     { name: "TikTok",   tab: "TikTok"  }
   ],
-
-  /* ====== KOLOM TABEL "DETAILED DATA" ======
-     Tinggal hapus/tambah baris di bawah untuk atur kolom yang muncul.
-     type: "date" | "text" | "channel" | "code" | "num" | "rp"
-     Kolom yang TERSEDIA tapi sengaja dimatikan: lp_views, click, register_button_click
-     (tinggal hapus tanda // di depannya kalau mau dimunculkan).        */
   DETAIL_COLS: [
     { key:"date",             label:"Date",          type:"date" },
     { key:"wilayah",          label:"Region",        type:"text" },
@@ -446,25 +436,15 @@ var CFG = {
     { key:"interaction",      label:"Interaction",   type:"num" },
     { key:"ctr",              label:"CTR",           type:"text" },
     { key:"cost",             label:"Cost",          type:"rp" }
-    // ,{ key:"lp_views",              label:"LP Views",   type:"num" }
-    // ,{ key:"click",                 label:"Click",      type:"num" }
-    // ,{ key:"register_button_click", label:"Reg. Click", type:"num" }
   ],
-
-  /* ====== KOLOM TABEL "KOL & HOMELESS" ======
-     Sama: hapus/tambah baris. "linkbtn" = tombol buka link.            */
   COMMISSION_COLS: [
     { key:"name",           label:"Nama",           type:"text" },
     { key:"source",         label:"Category",       type:"channel" },
     { key:"link_postingan", label:"Link Postingan", type:"linkbtn", btn:"Cek Postingan" },
     { key:"registrations",  label:"Jumlah Daftar",  type:"num" },
     { key:"commission",     label:"Estimasi Komisi",type:"rp" }
-    // ,{ key:"norek",        label:"No. Rekening", type:"text" }
-    // ,{ key:"account_name", label:"Nama Rekening",type:"text" }
-    // ,{ key:"email",        label:"Email",        type:"text" }
   ]
 };
-/* ============================================================ */
 
 var CH_COLORS = { homeless:"#C2410C", kol:"#B5160F", meta:"#1D4ED8", tiktok:"#BE185D", organic:"#047857", default:"#E1241B" };
 function chColor(name){ var k=(name||"").toLowerCase().replace(/\s+/g,"").replace(/ads/,""); return CH_COLORS[k]||CH_COLORS.default; }
@@ -473,21 +453,18 @@ function sheetNameMap(){ var nm={}; CFG.SHEETS.forEach(function(x){ nm[x.tab]=x.
 var currentRole="", currentCode="", refreshTimer=null;
 var allData=[], commission=[], commByCode={}, trendChart=null, donutChart=null;
 
-/* ============ BOOTSTRAP ============ */
 window.addEventListener("load", function(){
   document.getElementById("login-logo").src=CFG.LOGO_URL;
   document.getElementById("partner-logo").src=CFG.LOGO_URL;
   document.getElementById("admin-logo").src=CFG.LOGO_URL;
-  fetchData(false); /* preload so partner codes can be validated */
+  fetchData(false);
   document.getElementById("login-screen").classList.remove("off");
 });
 
-/* ============ LOGIN ============ */
 function doLogin(){
   var val=document.getElementById("l-pw").value.trim();
   var e=document.getElementById("l-err");
   if(val===CFG.ADMIN_PASSWORD){ enterAdmin(); return; }
-  /* partner: cocokkan kode referral (KOL/Homeless) */
   var key=val.toLowerCase();
   var found=null;
   Object.keys(commByCode).forEach(function(c){ if(c.toLowerCase()===key) found=c; });
@@ -524,10 +501,8 @@ document.addEventListener("keydown", function(e){
   if(la && !la.classList.contains("off")) doLogin();
 });
 
-/* ============ DATA ============ */
 function startAutoRefresh(){ stopAutoRefresh(); refreshTimer=setInterval(function(){ fetchData(false); },CFG.REFRESH_MIN*60*1000); }
 function stopAutoRefresh(){ if(refreshTimer){ clearInterval(refreshTimer); refreshTimer=null; } }
-
 function loadAllData(manual){ fetchData(manual); }
 function fetchData(manual){
   if(manual){ var ic=document.getElementById("refresh-icon"); if(ic) ic.classList.add("spin"); }
@@ -550,7 +525,6 @@ function fetchData(manual){
     });
 }
 
-/* ============ ADMIN RENDER ============ */
 function renderAdmin(){ buildFilters(); applyAll(); renderCommission(); }
 
 function buildFilters(){
@@ -571,15 +545,24 @@ function getFilteredData(){
     if(src && (r._source||"").toLowerCase()!==src) return false;
     if(region && (r.wilayah||"").toLowerCase()!==region) return false;
     if(search && !(r.media_name||"").toLowerCase().includes(search) && !(r.link||"").toLowerCase().includes(search) && !(r.referral_code||"").toLowerCase().includes(search)) return false;
-    if(dfrom||dto){ var ts=normDate(r.date); if(!ts) return true; if(dfrom&&ts<dfrom) return false; if(dto&&ts>dto) return false; }
+    if(dfrom||dto){ var ts=normDateISO(r.date); if(!ts) return true; if(dfrom&&ts<dfrom) return false; if(dto&&ts>dto) return false; }
     return true;
   });
 }
 function val(id){ var el=document.getElementById(id); return el?el.value.toLowerCase():""; }
 function raw(id){ var el=document.getElementById(id); return el?el.value:""; }
-function normDate(v){ var s=String(v||"").trim(); var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) return m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0"); return s; }
-function clearDates(){ document.getElementById("date-from").value=""; document.getElementById("date-to").value=""; applyAll(); }
 
+// Konversi DD/MM/YYYY atau YYYY-MM-DD ke YYYY-MM-DD untuk perbandingan
+function normDateISO(v){
+  var s=String(v||"").trim();
+  var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m) return m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0");
+  var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m2) return s;
+  return "";
+}
+
+function clearDates(){ document.getElementById("date-from").value=""; document.getElementById("date-to").value=""; applyAll(); }
 function applyAll(){
   var d=getFilteredData();
   renderKPI(d); renderTrend(d);
@@ -603,22 +586,90 @@ function renderKPI(d){
 function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
 function bar(id,p){ var el=document.getElementById(id); if(el) el.style.width=p+"%"; }
 
-function monthKey(v){ if(!v) return null; var s=String(v).trim(); var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(m) return m[3]+"-"+m[2].padStart(2,"0"); var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})$/); if(m2) return m2[1]+"-"+m2[2]; return null; }
-function monthLabel(k){ var p=k.split("-"); var n=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return n[Number(p[1])-1]+" "+p[0]; }
+// ─── WEEKLY TREND ──────────────────────────────────────────────────
+// Satu minggu = Jumat s/d Kamis.
+// Semua tanggal — termasuk data sebelum PERIODE_OPTIONS pertama —
+// di-group ke Jumat awal minggu masing-masing secara normal.
+// Tidak ada perlakuan khusus; weekKey bekerja untuk tanggal berapapun.
+
+function weekKey(v){
+  if(!v) return null;
+  var s=String(v).trim();
+  var d;
+  var m1=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m1) d=new Date(Number(m1[3]),Number(m1[2])-1,Number(m1[1]));
+  else {
+    var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(m2) d=new Date(Number(m2[1]),Number(m2[2])-1,Number(m2[3]));
+    else return null;
+  }
+  if(isNaN(d.getTime())) return null;
+  // getDay(): 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
+  // Mundur ke Jumat terdekat (atau tetap kalau sudah Jumat)
+  var day=d.getDay();
+  var offset=day>=5 ? day-5 : day+2;
+  var fri=new Date(d.getTime()-offset*86400000);
+  var yyyy=fri.getFullYear();
+  var mm=String(fri.getMonth()+1).padStart(2,"0");
+  var dd=String(fri.getDate()).padStart(2,"0");
+  return yyyy+"-"+mm+"-"+dd;
+}
+
+// Label ringkas: "06–12 Jun" atau "30 Jun–06 Jul" kalau lintas bulan
+function weekLabel(fridayStr){
+  var p=fridayStr.split("-");
+  var fri=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+  var thu=new Date(fri.getTime()+6*86400000);
+  var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var fdStr=String(fri.getDate()).padStart(2,"0");
+  var tdStr=String(thu.getDate()).padStart(2,"0");
+  if(fri.getMonth()===thu.getMonth()){
+    // Bulan sama: "06–12 Jun"
+    return fdStr+"\u2013"+tdStr+" "+MN[fri.getMonth()];
+  } else {
+    // Lintas bulan: "30 Jun–06 Jul"
+    return fdStr+" "+MN[fri.getMonth()]+"\u2013"+tdStr+" "+MN[thu.getMonth()];
+  }
+}
+
 function renderTrend(d){
-  var bm={}; d.forEach(function(r){ var k=monthKey(r.date); if(!k) return; if(!bm[k]) bm[k]={reg:0,rev:0}; bm[k].reg+=num(r.jumlah_pendaftar); bm[k].rev+=num(r.total_pendapatan); });
-  var keys=Object.keys(bm).sort(), labels=keys.map(monthLabel), reg=keys.map(function(k){return bm[k].reg;}), rev=keys.map(function(k){return bm[k].rev;});
+  var bm={};
+  d.forEach(function(r){
+    var k=weekKey(r.date);
+    if(!k) return;
+    if(!bm[k]) bm[k]={reg:0,rev:0};
+    bm[k].reg+=num(r.jumlah_pendaftar);
+    bm[k].rev+=num(r.total_pendapatan);
+  });
+  var keys=Object.keys(bm).sort();
+  var labels=keys.map(weekLabel);
+  var reg=keys.map(function(k){return bm[k].reg;});
+  var rev=keys.map(function(k){return bm[k].rev;});
   if(trendChart){ trendChart.destroy(); trendChart=null; }
   trendChart=new Chart(document.getElementById("chart-trend").getContext("2d"),{
     data:{ labels:labels, datasets:[
       { type:"bar", label:"Registrations", data:reg, backgroundColor:"#E1241B", borderRadius:5, borderSkipped:false, yAxisID:"y", order:2 },
       { type:"line", label:"Revenue", data:rev, borderColor:"#1D4ED8", backgroundColor:"#1D4ED8", borderWidth:2.5, pointRadius:3, pointBackgroundColor:"#1D4ED8", tension:0.3, yAxisID:"y1", order:1 }
     ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(c){ return c.dataset.label==="Revenue"?" "+fmtRp(c.parsed.y):" "+fmtNum(c.parsed.y)+" registrations"; } } } },
-      scales:{ x:{ grid:{display:false}, ticks:{font:{size:11},color:"#A89B9A"} }, y:{ position:"left", grid:{color:"#F0E7E6"}, ticks:{font:{size:11},color:"#A89B9A",callback:function(v){return v>=1000?(v/1000).toFixed(0)+"K":v;}} }, y1:{ position:"right", grid:{display:false}, ticks:{font:{size:11},color:"#A89B9A",callback:function(v){return v>=1e9?(v/1e9).toFixed(1)+"M":v>=1e6?(v/1e6).toFixed(0)+"jt":v;}} } } }
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{ callbacks:{ label:function(c){ return c.dataset.label==="Revenue"?" "+fmtRp(c.parsed.y):" "+fmtNum(c.parsed.y)+" registrations"; } } }
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:11},color:"#A89B9A",maxRotation:45,minRotation:30} },
+        y:{ position:"left", grid:{color:"#F0E7E6"}, ticks:{font:{size:11},color:"#A89B9A",callback:function(v){return v>=1000?(v/1000).toFixed(0)+"K":v;}} },
+        y1:{ position:"right", grid:{display:false}, ticks:{font:{size:11},color:"#A89B9A",callback:function(v){return v>=1e9?(v/1e9).toFixed(1)+"M":v>=1e6?(v/1e6).toFixed(0)+"jt":v;}} }
+      }
+    }
   });
-  document.getElementById("chart-legend-trend").innerHTML='<span class="legend-item"><span class="legend-sq" style="background:#E1241B"></span>Registrations</span><span class="legend-item"><span class="legend-sq" style="background:#1D4ED8"></span>Revenue</span>';
+  document.getElementById("chart-legend-trend").innerHTML=
+    '<span class="legend-item"><span class="legend-sq" style="background:#E1241B"></span>Registrations</span>'+
+    '<span class="legend-item"><span class="legend-sq" style="background:#1D4ED8"></span>Revenue</span>';
 }
+// ─── END WEEKLY TREND ──────────────────────────────────────────────
+
 function renderRank(elId,key,isChannel,d){
   var nm=sheetNameMap(); var groups=groupBy(d,key,"jumlah_pendaftar").slice(0,isChannel?5:10);
   var max=groups.length?groups[0][1]:1, total=groups.reduce(function(s,g){return s+g[1];},0)||1;
@@ -657,7 +708,6 @@ function renderConversionTable(d){
 function dash(){ return '<span style="color:var(--muted)">—</span>'; }
 
 var sortCol="jumlah_pendaftar", sortDir="desc";
-/* ============ TABLE HELPERS (config-driven) ============ */
 function colType(cols,key){ for(var i=0;i<cols.length;i++) if(cols[i].key===key) return cols[i].type; return "text"; }
 function cellHtml(col,r){
   var v=r[col.key];
@@ -672,7 +722,7 @@ function cellHtml(col,r){
 function buildTable(rows,cols,sortable){
   var html='<table class="detail"><thead><tr>';
   cols.forEach(function(col){
-    var canSort = sortable && col.type!=="linkbtn" && col.type!=="channel";
+    var canSort=sortable&&col.type!=="linkbtn"&&col.type!=="channel";
     if(canSort){ var cls=sortCol===col.key?("sortable sort-"+sortDir):"sortable"; html+='<th class="'+cls+'" onclick="doSort(\''+col.key+'\')">'+esc(col.label)+'<span class="sort-arrow"></span></th>'; }
     else html+='<th>'+esc(col.label)+'</th>';
   });
@@ -680,8 +730,6 @@ function buildTable(rows,cols,sortable){
   rows.forEach(function(r){ html+='<tr>'; cols.forEach(function(col){ html+=cellHtml(col,r); }); html+='</tr>'; });
   return html+'</tbody></table>';
 }
-
-/* ============ DETAILED DATA ============ */
 function renderTable(d){
   document.getElementById("tbl-count").textContent=fmtNum(d.length)+" rows";
   if(!d.length){ document.getElementById("tbl-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128202;</div><div>No matching data</div></div>'; return; }
@@ -692,19 +740,17 @@ function renderTable(d){
 }
 function doSort(col){ if(sortCol===col) sortDir=sortDir==="asc"?"desc":"asc"; else { sortCol=col; sortDir="desc"; } renderTable(getFilteredData()); }
 
-/* ============ KOL & HOMELESS ============ */
 function renderCommission(){
   var note=document.getElementById("comm-rate-note"); if(note) note.textContent="Rp"+Number(CFG.COMMISSION_PER).toLocaleString("id-ID")+" / pendaftar";
   var q=(document.getElementById("comm-search")||{}).value; q=(q||"").toLowerCase();
   var rows=commission.filter(function(c){ return !q || String(c.name||"").toLowerCase().includes(q) || String(c.referral_code||"").toLowerCase().includes(q); });
   document.getElementById("comm-count").textContent=fmtNum(rows.length)+" mitra";
-  if(!commission.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128176;</div><div>Belum ada data. Pastikan Apps Script sudah diupdate &amp; tab Commission terisi.</div></div>'; return; }
+  if(!commission.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div class="empty-icon">&#128176;</div><div>Belum ada data.</div></div>'; return; }
   if(!rows.length){ document.getElementById("comm-body").innerHTML='<div class="empty-state"><div>Tidak ada yang cocok.</div></div>'; return; }
   rows.sort(function(a,b){ return num(b.commission)-num(a.commission); });
   document.getElementById("comm-body").innerHTML=buildTable(rows,CFG.COMMISSION_COLS,false);
 }
 
-/* ============ PARTNER RENDER ============ */
 function renderPartner(){
   var c=commByCode[currentCode]||{};
   document.getElementById("p-name").textContent=c.name||currentCode;
@@ -718,7 +764,6 @@ function renderPartner(){
   else { link.href="#"; link.style.pointerEvents="none"; link.style.opacity="0.5"; link.textContent="Form belum diatur"; }
 }
 
-/* ============ HELPERS ============ */
 function groupBy(d,key,valKey){ var o={}; d.forEach(function(r){ var k=r[key]||"(none)"; o[k]=(o[k]||0)+num(r[valKey]); }); return Object.entries(o).sort(function(a,b){ return b[1]-a[1]; }); }
 function num(v){ if(typeof v==="number") return v; var n=parseFloat(String(v||"").replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
 function fmtNum(n){ return Math.round(num(n)).toLocaleString("en-US"); }
@@ -728,7 +773,6 @@ function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
 var toastTimer=null;
 function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("on"); if(toastTimer) clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.classList.remove("on"); },3500); }
 
-/* ============ EXPORT PDF ============ */
 function exportPDF(){
   var root=document.getElementById("pdf-root");
   document.querySelectorAll(".no-pdf").forEach(function(el){ el.dataset.prev=el.style.display; el.style.display="none"; });
