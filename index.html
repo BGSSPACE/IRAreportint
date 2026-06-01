@@ -383,7 +383,7 @@ th.sort-desc .sort-arrow::after { content:" ▼"; opacity:1; }
           <span class="table-count" id="tbl-count">—</span>
           <select class="t-filter no-pdf" id="f-source" onchange="applyAll()"><option value="">All channels</option></select>
           <select class="t-filter no-pdf" id="f-region" onchange="applyAll()"><option value="">All regions</option></select>
-          <input class="t-search no-pdf" type="text" id="f-search" placeholder="Search code / media / link..." oninput="applyAll()">
+          <input class="t-search no-pdf" type="text" id="f-search" placeholder="Search username / media / link..." oninput="applyAll()">
         </div>
       </div>
       <div class="table-scroll" id="tbl-body"><div class="loading-row">Loading data...</div></div>
@@ -423,24 +423,24 @@ var CFG = {
     { name: "TikTok",   tab: "TikTok"  }
   ],
   DETAIL_COLS: [
-    { key:"wilayah",          label:"Region",        type:"text" },
+    { key:"wilayah",          label:"Region",        type:"text"    },
     { key:"_source",          label:"Channel",       type:"channel" },
-    { key:"referral_code",    label:"Referral Code", type:"code" },
-    { key:"media_name",       label:"Media Name",    type:"text" },
-    { key:"jumlah_pendaftar", label:"Registrations", type:"num" },
-    { key:"total_pendapatan", label:"Revenue",       type:"rp" },
-    { key:"reach",            label:"Reach",         type:"num" },
-    { key:"views",            label:"Views",         type:"num" },
-    { key:"interaction",      label:"Interaction",   type:"num" },
-    { key:"ctr",              label:"CTR",           type:"text" },
-    { key:"cost",             label:"Cost",          type:"rp" }
+    { key:"referral_code",    label:"Username",      type:"code"    },
+    { key:"link",             label:"Link Post",     type:"linkbtn", btn:"Buka" },
+    { key:"media_name",       label:"Media Name",    type:"text"    },
+    { key:"jumlah_pendaftar", label:"Registrations", type:"num"     },
+    { key:"total_pendapatan", label:"Revenue",       type:"rp"      },
+    { key:"reach",            label:"Reach",         type:"num"     },
+    { key:"views",            label:"Views",         type:"num"     },
+    { key:"interaction",      label:"Interaction",   type:"num"     },
+    { key:"cost",             label:"Cost",          type:"rp"      }
   ],
   COMMISSION_COLS: [
-    { key:"name",           label:"Nama",           type:"text" },
+    { key:"name",           label:"Nama",           type:"text"    },
     { key:"source",         label:"Category",       type:"channel" },
     { key:"link_postingan", label:"Link Postingan", type:"linkbtn", btn:"Cek Postingan" },
-    { key:"registrations",  label:"Jumlah Daftar",  type:"num" },
-    { key:"commission",     label:"Estimasi Komisi",type:"rp" }
+    { key:"registrations",  label:"Jumlah Daftar",  type:"num"     },
+    { key:"commission",     label:"Estimasi Komisi",type:"rp"      }
   ]
 };
 
@@ -550,7 +550,6 @@ function getFilteredData(){
 function val(id){ var el=document.getElementById(id); return el?el.value.toLowerCase():""; }
 function raw(id){ var el=document.getElementById(id); return el?el.value:""; }
 
-// Konversi DD/MM/YYYY atau YYYY-MM-DD ke YYYY-MM-DD untuk perbandingan
 function normDateISO(v){
   var s=String(v||"").trim();
   var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
@@ -584,12 +583,6 @@ function renderKPI(d){
 function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
 function bar(id,p){ var el=document.getElementById(id); if(el) el.style.width=p+"%"; }
 
-// ─── WEEKLY TREND ──────────────────────────────────────────────────
-// Satu minggu = Jumat s/d Kamis.
-// Semua tanggal — termasuk data sebelum PERIODE_OPTIONS pertama —
-// di-group ke Jumat awal minggu masing-masing secara normal.
-// Tidak ada perlakuan khusus; weekKey bekerja untuk tanggal berapapun.
-
 function weekKey(v){
   if(!v) return null;
   var s=String(v).trim();
@@ -602,8 +595,6 @@ function weekKey(v){
     else return null;
   }
   if(isNaN(d.getTime())) return null;
-  // getDay(): 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
-  // Mundur ke Jumat terdekat (atau tetap kalau sudah Jumat)
   var day=d.getDay();
   var offset=day>=5 ? day-5 : day+2;
   var fri=new Date(d.getTime()-offset*86400000);
@@ -613,7 +604,6 @@ function weekKey(v){
   return yyyy+"-"+mm+"-"+dd;
 }
 
-// Label ringkas: "06–12 Jun" atau "30 Jun–06 Jul" kalau lintas bulan
 function weekLabel(fridayStr){
   var p=fridayStr.split("-");
   var fri=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
@@ -622,10 +612,8 @@ function weekLabel(fridayStr){
   var fdStr=String(fri.getDate()).padStart(2,"0");
   var tdStr=String(thu.getDate()).padStart(2,"0");
   if(fri.getMonth()===thu.getMonth()){
-    // Bulan sama: "06–12 Jun"
     return fdStr+"\u2013"+tdStr+" "+MN[fri.getMonth()];
   } else {
-    // Lintas bulan: "30 Jun–06 Jul"
     return fdStr+" "+MN[fri.getMonth()]+"\u2013"+tdStr+" "+MN[thu.getMonth()];
   }
 }
@@ -666,7 +654,6 @@ function renderTrend(d){
     '<span class="legend-item"><span class="legend-sq" style="background:#E1241B"></span>Registrations</span>'+
     '<span class="legend-item"><span class="legend-sq" style="background:#1D4ED8"></span>Revenue</span>';
 }
-// ─── END WEEKLY TREND ──────────────────────────────────────────────
 
 function renderRank(elId,key,isChannel,d){
   var nm=sheetNameMap(); var groups=groupBy(d,key,"jumlah_pendaftar").slice(0,isChannel?5:10);
